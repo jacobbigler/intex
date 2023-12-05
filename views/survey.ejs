@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media and Well-being Survey</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        fieldset {
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+
+        legend {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input[type="checkbox"],
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Social Media and Well-being Survey</h1>
+    <form action="/survey" method="post">
+        <!-- Personal Information -->
+        <fieldset>
+            <legend>Personal Information:</legend>
+            <label for="age">Age</label>
+            <input type="number" id="age">
+
+            <!-- Add radio buttons for other age groups -->
+
+            <label for="gender">Gender</label>
+            <input type="radio" name="gender" value="Male"> Male
+            <input type="radio" name="gender" value="Female"> Female
+            <input type="radio" name="gender" value="Nonbinary"> Nonbinary
+            <!-- Add radio buttons for other gender options -->
+
+            <label for="relationship">Relationship Status:</label>
+            <input type="radio" name="relationship" value="Single"> Single
+            <input type="radio" name="relationship" value="In a relationship"> In a relationship
+            <input type="radio" name="relationship" value="Married"> Married
+            <input type="radio" name="relationship" value="Divorced"> Divorced
+
+            <!-- Add radio buttons for other relationship statuses -->
+
+            <label for="occupation">Occupation Status:</label>
+            <input type="radio" name="occupation" value="Retired"> Retired
+            <input type="radio" name="occupation" value="Salaried Worker"> Salaried Worker
+            <input type="radio" name="occupation" value="School Student"> School Student
+            <input type="radio" name="occupation" value="Unemployed"> Unemployed
+            <input type="radio" name="occupation" value="University Student"> University Student
+            <!-- Add radio buttons for other occupation statuses -->
+
+            <label for="organizations">Affiliation with Organizations:</label>
+            <input type="checkbox" name="organizations" value="Company"> Company
+            <input type="checkbox" name="organizations" value="Government"> Government
+            <input type="checkbox" name="organizations" value="Private"> Private
+            <input type="checkbox" name="organizations" value="School"> School
+            <input type="checkbox" name="organizations" value="University"> University
+            <input type="checkbox" name="organizations" value="N/A"> N/A
+            <!-- Add checkboxes for other organization affiliations -->
+        </fieldset>
+
+        <!-- Social Media Usage -->
+        <fieldset>
+            <legend>Social Media Usage:</legend>
+            <label for="use-social-media">Do you use social media?</label>
+            <input type="radio" name="use-social-media" value="Yes"> Yes
+            <input type="radio" name="use-social-media" value="No"> No
+
+            <label for="social-media-platforms">Which platforms do you use?</label>
+            <input type="checkbox" name="social-media-platforms" value="Discord"> Discord
+            <input type="checkbox" name="social-media-platforms" value="Facebook"> Facebook
+            <input type="checkbox" name="social-media-platforms" value="Instagram"> Instagram
+            <input type="checkbox" name="social-media-platforms" value="Pinterest"> Pinterest
+            <input type="checkbox" name="social-media-platforms" value="Reddit"> Reddit
+            <input type="checkbox" name="social-media-platforms" value="Snapchat"> Snapchat
+            <input type="checkbox" name="social-media-platforms" value="TikTok"> TikTok
+            <input type="checkbox" name="social-media-platforms" value="Twitter"> Twitter
+            <input type="checkbox" name="social-media-platforms" value="YouTube"> YouTube
+            <!-- Add checkboxes for other social media platforms -->
+
+            <label for="time-spent">Average Time Spent on Social Media per day:</label>
+            <input type="radio" name="time-spent" value="Less than an hour"> Less than an hour
+            <input type="radio" name="time-spent" value="Between 1 and 2 hours"> Between 1 and 2 hours
+            <input type="radio" name="time-spent" value="Between 2 and 3 hours"> Between 2 and 3 hours
+            <input type="radio" name="time-spent" value="Between 3 and 4 hours"> Between 3 and 4 hours
+            <input type="radio" name="time-spent" value="More than 5 hours"> More than 5 hours
+            <!-- Add radio buttons for other time spent options -->
+        </fieldset>
+
+        <!-- Additional Questions -->
+        <fieldset>
+            <legend>Social Media Usage Patterns:</legend>
+            <label for="q1">How often do you find yourself using social media without a specific purpose?</label>
+            <input type="radio" name="use_without_purpose" value="1" id="use_without_purpose_1"> Never</label>
+            <input type="radio" name="use_without_purpose" value="2" id="use_without_purpose_2"> Rarely</label>
+            <input type="radio" name="use_without_purpose" value="3" id="use_without_purpose_3"> Sometimes</label>
+            <input type="radio" name="use_without_purpose" value="4" id="use_without_purpose_4"> Often</label>
+            <input type="radio" name="use_without_purpose" value="5" id="use_without_purpose_5"> Always</label>
+
+            <label for="q1">How often do you get distracted by Social media when you are busy doing something?</label>
+            <input type="radio" name="distracted_by_social_media" value="1" id="distracted_by_social_media_1"> Never</label>
+            <input type="radio" name="distracted_by_social_media" value="2" id="distracted_by_social_media_2"> Rarely</label>
+            <input type="radio" name="distracted_by_social_media" value="3" id="distracted_by_social_media_3"> Sometimes</label>
+            <input type="radio" name="distracted_by_social_media" value="4" id="distracted_by_social_media_4"> Often</label>
+            <input type="radio" name="distracted_by_social_media" value="5" id="distracted_by_social_media_5"> Always</label>
+
+            <label for="q1">Do you feel restless if you haven't used Social media in a while?</label>
+            <input type="radio" name="restless_without_social_media" value="1" id="restless_without_social_media_1"> Never</label>
+            <input type="radio" name="restless_without_social_media" value="2" id="restless_without_social_media_2"> Rarely</label>
+            <input type="radio" name="restless_without_social_media" value="3" id="restless_without_social_media_3"> Sometimes</label>
+            <input type="radio" name="restless_without_social_media" value="4" id="restless_without_social_media_4"> Often</label>
+            <input type="radio" name="restless_without_social_media" value="5" id="restless_without_social_media_5"> Always</label>
+
+            <label for="q1">On a scale of 1 to 5, how easily distracted are you?</label>
+            <input type="radio" name="easily_distracted" value="1" id="easily_distracted_1"> Never</label>
+            <input type="radio" name="easily_distracted" value="2" id="easily_distracted_2"> Rarely</label>
+            <input type="radio" name="easily_distracted" value="3" id="easily_distracted_3"> Sometimes</label>
+            <input type="radio" name="easily_distracted" value="4" id="easily_distracted_4"> Often</label>
+            <input type="radio" name="easily_distracted" value="5" id="easily_distracted_5"> Always</label>
+
+            <label for="q1">On a scale of 1 to 5, how much are you bothered by worries?</label>
+            <input type="radio" name="bothered_by_worries" value="1" id="bothered_by_worries_1"> Never</label>
+            <input type="radio" name="bothered_by_worries" value="2" id="bothered_by_worries_2"> Rarely</label>
+            <input type="radio" name="bothered_by_worries" value="3" id="bothered_by_worries_3"> Sometimes</label>
+            <input type="radio" name="bothered_by_worries" value="4" id="bothered_by_worries_4"> Often</label>
+            <input type="radio" name="bothered_by_worries" value="5" id="bothered_by_worries_5"> Always</label>
+
+            <label for="q1">Do you find it difficult to concentrate on things?</label>
+            <input type="radio" name="concentration_difficulty" value="1" id="concentration_difficulty_1"> Never</label>
+            <input type="radio" name="concentration_difficulty" value="2" id="concentration_difficulty_2"> Rarely</label>
+            <input type="radio" name="concentration_difficulty" value="3" id="concentration_difficulty_3"> Sometimes</label>
+            <input type="radio" name="concentration_difficulty" value="4" id="concentration_difficulty_4"> Often</label>
+            <input type="radio" name="concentration_difficulty" value="5" id="concentration_difficulty_5"> Always</label>
+
+            <label for="q1">On a scale of 1-5, how often do you compare yourself to other successful people through the use of social media?</label>
+            <input type="radio" name="compare_self_to_others" value="1" id="compare_self_to_others_1"> Never</label>
+            <input type="radio" name="compare_self_to_others" value="2" id="compare_self_to_others_2"> Rarely</label>
+            <input type="radio" name="compare_self_to_others" value="3" id="compare_self_to_others_3"> Sometimes</label>
+            <input type="radio" name="compare_self_to_others" value="4" id="compare_self_to_others_4"> Often</label>
+            <input type="radio" name="compare_self_to_others" value="5" id="compare_self_to_others_5"> Always</label>
+
+            <label for="q1">Following the previous question, how do you feel about these comparisons, generally speaking?</label>
+            <input type="radio" name="opinions_about_comparisons_1" value="1" id="opinions_about_comparisons_1"> Never</label>
+            <input type="radio" name="opinions_about_comparisons_1" value="2" id="opinions_about_comparisons_2"> Rarely</label>
+            <input type="radio" name="opinions_about_comparisons_1" value="3" id="opinions_about_comparisons_3"> Sometimes</label>
+            <input type="radio" name="opinions_about_comparisons_1" value="4" id="opinions_about_comparisons_4"> Often</label>
+            <input type="radio" name="opinions_about_comparisons_1" value="5" id="opinions_about_comparisons_5"> Always</label>
+
+            <label for="q1">How often do you look to seek validation from features of social media?</label>
+            <input type="radio" name="seek_validation" value="1" id="seek_validation_1"> Never</label>
+            <input type="radio" name="seek_validation" value="2" id="seek_validation_2"> Rarely</label>
+            <input type="radio" name="seek_validation" value="3" id="seek_validation_3"> Sometimes</label>
+            <input type="radio" name="seek_validation" value="4" id="seek_validation_4"> Often</label>
+            <input type="radio" name="seek_validation" value="5" id="seek_validation_5"> Always</label>
+
+            <label for="q1">How often do you feel depressed or down?</label>
+            <input type="radio" name="feel_depressed" value="1" id="feel_depressed_1"> Never</label>
+            <input type="radio" name="feel_depressed" value="2" id="feel_depressed_2"> Rarely</label>
+            <input type="radio" name="feel_depressed" value="3" id="feel_depressed_3"> Sometimes</label>
+            <input type="radio" name="feel_depressed" value="4" id="feel_depressed_4"> Often</label>
+            <input type="radio" name="feel_depressed" value="5" id="feel_depressed_5"> Always</label>
+
+            <label for="q1">On a scale of 1 to 5, how frequently does your interest in daily activities fluctuate?</label>
+            <input type="radio" name="daily_activity_interest_fluctuations" value="1" id="daily_activity_interest_fluctuations_1"> Never</label>
+            <input type="radio" name="daily_activity_interest_fluctuations" value="2" id="daily_activity_interest_fluctuations_2"> Rarely</label>
+            <input type="radio" name="daily_activity_interest_fluctuations" value="3" id="daily_activity_interest_fluctuations_3"> Sometimes</label>
+            <input type="radio" name="daily_activity_interest_fluctuations" value="4" id="daily_activity_interest_fluctuations_4"> Often</label>
+            <input type="radio" name="daily_activity_interest_fluctuations" value="5" id="daily_activity_interest_fluctuations_5"> Always</label>
+
+            <label for="sleep_issues">On a scale of 1 to 5, how often do you face issues regarding sleep?</label>
+            <input type="radio" name="sleep_issues" value="1" id="sleep_issues_1"> Never</label>
+            <input type="radio" name="sleep_issues" value="2" id="sleep_issues_2"> Rarely</label>
+            <input type="radio" name="sleep_issues" value="3" id="sleep_issues_3"> Sometimes</label>
+            <input type="radio" name="sleep_issues" value="4" id="sleep_issues_4"> Often</label>
+            <input type="radio" name="sleep_issues" value="5" id="sleep_issues_5"> Always</label>
+
+
+        </fieldset>
+
+        <!-- Submit Button -->
+        <input type="submit" value="Submit">
+    </form>
+</body>
+
+</html>
