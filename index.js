@@ -49,8 +49,14 @@ const knex = require("knex")({
 //GET requests below:
 
 app.get("/report", (req, res) => {
-    knex.select().from("user-input").then( userInput => {
+    knex.select().from("user-inputs").then( userInput => {
         res.render("report", { myuser : userInput });
+    });
+});
+
+app.get("/", (req, res) => {
+    knex.select().from("user_inputs").then( userInput => {
+        res.render("displayCountry", { myuser : userInput });
     });
 });
 
