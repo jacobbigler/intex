@@ -47,10 +47,10 @@ const knex = require("knex")({
 })
 
 //GET requests below:
-/*
-app.get("/", (req, res) => {
-    knex.select().from("country").then( country => {
-        res.render("displayCountry", { mycountry : country });
+
+app.get("/survey", (req, res) => {
+    knex.select().from("user-input").then( userInput => {
+        res.render("survey", { myuser : userInput });
     });
 });
-*/
+
