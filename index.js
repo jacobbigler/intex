@@ -54,10 +54,3 @@ app.get("/", (req, res) => {
     });
 });
 */
-
-app.post('/survey', (req, res) => {
-    knex('TABLE NAME').insert({
-        age:
-        req.body.age
-    })
-})
