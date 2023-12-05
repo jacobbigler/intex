@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>User Survey Report</title>
+</head>
+<body>
+   <label><b>User Information:</b></label>
+   <br><br>
+   <table style="width: 100%; background-color: antiquewhite; border: 1px solid black;">
+     <thead style="background-color: cornflowerblue; color: white;">
+       <tr>
+         <th style="text-align: left;">Timestamp</th>
+         <th style="text-align: left;">City</th>
+         <th style="text-align: left;">1. What is your age?</th>
+         <th style="text-align: left;">2. Gender</th>
+         <th style="text-align: left;">3. Relationship Status</th>
+         <th style="text-align: left;">4. Occupation Status</th>
+         <th style="text-align: left;">5. What type of organizations are you affiliated with?</th>
+         <th style="text-align: left;">6. Do you use social media?</th>
+         <th style="text-align: left;">7. What social media platforms do you commonly use?</th>
+         <th style="text-align: left;">8. What is the average time you spend on social media every day?</th>
+         <th style="text-align: left;">9. How often do you find yourself using Social media without a specific purpose?</th>
+         <th style="text-align: left;">10. How often do you get distracted by Social media when you are busy doing something?</th>
+         <th style="text-align: left;">11. Do you feel restless if you haven't used Social media in a while?</th>
+         <th style="text-align: left;">12. On a scale of 1 to 5, how easily distracted are you?</th>
+         <th style="text-align: left;">13. On a scale of 1 to 5, how much are you bothered by worries?</th>
+         <th style="text-align: left;">14. Do you find it difficult to concentrate on things?</th>
+         <th style="text-align: left;">15. On a scale of 1-5, how often do you compare yourself to other successful people through the use of social media?</th>
+         <th style="text-align: left;">16. Following the previous question, how do you feel about these comparisons, generally speaking?</th>
+         <th style="text-align: left;">17. How often do you look to seek validation from features of social media?</th>
+         <th style="text-align: left;">18. How often do you feel depressed or down?</th>
+         <th style="text-align: left;">19. On a scale of 1 to 5, how frequently does your interest in daily activities fluctuate?</th>
+         <th style="text-align: left;">20. On a scale of 1 to 5, how often do you face issues regarding sleep?</th>
+         <th></th>
+         <th></th>
+       </tr>
+     </thead>
+     <tbody style="font-family: Arial; font-size: 9pt;">
+      <% for (let iCount = 0; iCount < myuser.length; iCount++) { %>
+         <tr>
+           <td><%= myuser[iCount].timestamp %></td>
+           <td><%= myuser[iCount].city %></td>
+           <td><%= myuser[iCount].age %></td>
+           <td><%= myuser[iCount].gender %></td>
+           <td><%= myuser[iCount].relationship_status %></td>
+           <td><%= myuser[iCount].occupation_status %></td>
+           <td><%= myuser[iCount].organization_affiliation %></td>
+           <td><%= myuser[iCount].social_media_use %></td>
+           <td><%= myuser[iCount].social_media_platform %></td>
+           <td><%= myuser[iCount].time_usage %></td>
+           <td><%= myuser[iCount].use_without_purpose %></td>
+           <td><%= myuser[iCount].distracted_by_social_media %></td>
+           <td><%= myuser[iCount].restless_without_social_media %></td>
+           <td><%= myuser[iCount].easily_distracted %></td>
+           <td><%= myuser[iCount].bothered_by_worries %></td>
+           <td><%= myuser[iCount].concentration_difficulty %></td>
+           <td><%= myuser[iCount].compare_self_to_others %></td>
+           <td><%= myuser[iCount].opinions_about_comparisons %></td>
+           <td><%= myuser[iCount].seek_validation %></td>
+           <td><%= myuser[iCount].feel_depressed %></td>
+           <td><%= myuser[iCount].daily_activity_interest_fluctuations %></td>
+           <td><%= myuser[iCount].sleep_issues %></td>
+           <td style="text-align: center;">
+             <form action="/editUser/<%= myuser[iCount].user_id %>" method="GET">
+               <button type="submit">Edit</button>
+             </form>
+           </td>
+           <td style="text-align: center;">
+             <form action="/deleteUser/<%= myuser[iCount].user_id %>" method="POST">
+               <button type="submit">Delete</button>
+             </form>
+           </td>
+         </tr>
+      <% } %>
+     </tbody>
+   </table>
+</body>
+</html>

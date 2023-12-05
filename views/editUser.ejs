@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+</head>
+<body>
+   <form action="/editUser" method="POST">
+     <fieldset style="width: 0px;">
+       <legend>Edit a User:</legend>
+       <input type="hidden" id="user_id" name="user_id" value="<%=mycountry[0].user_id %>">
+       <label for="country_name">Country Name:</label>
+       <input type="text" id="country_name" name="country_name" value="<%=mycountry[0].country_name %>">
+       <br><br>
+       <label for="popular_site">Popular Site:</label>
+       <input type="text" id="popular_site" name="popular_site" value="<%=mycountry[0].popular_site %>">
+       <br><br>
+       <label for="capital">Capital:</label>
+       <input type="text" id="capital" name="capital" value="<%=mycountry[0].capital %>">
+       <br><br>
+       <label for="population">Population:</label>
+       <input type="number" id="population" name="population" value="<%=mycountry[0].population %>">
+       <br><br>
+       <label for="visited">Visited (Y/N):</label>
+       <input type="checkbox" id="visited" name="visited" <%= mycountry[0].visited == "Y" ? "checked" : "" %>>
+       <br><br>
+       <fieldset style="width: 100 px;">
+         <legend>Covid Level:</legend>
+         <input type="radio" id="covid_high" name="covid_level" value="H" <%= mycountry[0].covid_level == "H" ? "checked" : "" %>>
+         <label for="covid_high">High</label><br>
+         <input type="radio" id="covid_medium" name="covid_level" value="M" <%= mycountry[0].covid_level == "M" ? "checked" : "" %>>
+         <label for="covid_high">Medium</label><br>
+         <input type="radio" id="covid_low" name="covid_level" value="L" <%= mycountry[0].covid_level == "L" ? "checked" : "" %>>
+         <label for="covid_high">Low</label><br>
+       </fieldset>
+     </fieldset>
+     <button type="submit">Save</button>
+   </form>
+</body>
+</html>
