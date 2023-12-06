@@ -49,9 +49,34 @@ const knex = require("knex")({
 //GET requests below:
 
 app.get("/report", (req, res) => { //shows report view
-    knex.select().from("user-inputs").then( userInput => {
-        res.render("report", { myuser : userInput });
-    });
+    knex.select("u.city",
+          "u.age",
+          "u.gender",
+          "u.relationship_status",
+          "u.occupation_status",
+          "oa.organization_affiliation",
+          "u.social_media_use",
+          "smp.social_media_platform",
+          "u.time_usage",
+          "r.use_without_purpose",
+          "r.restless_without_social_media",
+          "r.distracted_by_social_media",
+          "r.easily_distracted",
+          "r.bothered_by_worries",
+          "r.concentration_difficulty",
+          "r.compare_self_to_others",
+          "r.opinions_about_comparison",
+          "r.seek_validation",
+          "r.feel_depressed",
+          "r.daily_activity_interest_fluctuations",
+          "r.sleep_issues")
+          .from({u: "user_inputs" })
+          .join({r: "ratings"}, "u.user_id", "=", "r.user_id")
+          .join({smp: "social_media_platforms"},  "u.user_id", "=", "smp.user_id")
+          .join({oa: "organization_affiliations"},  "u.user_id", "=", "oa.user_id")
+          .where("u.user_id", req.params.id).then(userInput => {
+        res.render("editUser", {myuser: userInput});
+});
 });
 
 app.get("/", (req, res) => { //shows landing page
