@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Response - Social Media and Well-being Survey</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f0f7ff; /* Light blue background color */
+            color: #1b2f45; /* Dark blue text color */
+            text-align: center; /* Center-align text */
+        }
+
+        .thank-you-message {
+            margin-top: 50px; /* Adjust margin-top as needed */
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif; /* Montserrat font for the title */
+            color: #1b2f45; /* Dark blue text color */
+            margin-bottom: 20px; /* Add margin for spacing */
+        }
+
+        h2 {
+            font-family: 'Montserrat', sans-serif; /* Montserrat font for the subtitle */
+            color: #1b2f45; /* Dark blue text color */
+        }
+
+        .redirecting {
+            font-style: italic; /* Italicize the text */
+            margin-top: 30px; /* Add margin-top as needed */
+        }
+
+        .redirect-button {
+            padding: 10px 20px;
+            background-color: #1b2f45;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .redirect-button:hover {
+            background-color: #0e1a29;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="thank-you-message">
+        <h1>Thank You for Your Response</h1>
+        <h2>You will be redirected to the home page shortly</h2>
+        <p class="redirecting">Redirecting...</p>
+    </div>
+
+    <br> <br> <br>
+    <h5> Click here if you didn't get automatically redirected to go to the home page</h5>
+    <button onclick="redirectToHomePage()" class="redirect-button">Click here to go to the home page</button>
+
+    <script>
+        // JavaScript code for redirecting after a delay
+        function redirectToHomePage()
+        {
+            window.location.href = "/index.html";
+        }
+        
+        setTimeout(function () {
+            redirectToHomePage(); // Replace with your home page URL
+        }, 6000); // Adjust the delay time in milliseconds (here, 5000 milliseconds = 5 seconds)
+    </script>
+
+</body>
+
+</html>
