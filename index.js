@@ -144,15 +144,23 @@ app.post('/survey', (req, res) => {
               });
           })
           .then(() => {
-            return knex('social_media_platforms') //insert data into social_media_platforms table
-              .transacting(trx)
-              .insert({
-                timestamp: knex.fn.now(),
-                age: req.body.age ,
-                gender: req.body.gender ,
-                relationship_status: req.body.relationship ,
-                social_media_platform: req.body.social_media_platforms
-              });
+            const socialMediaPlatforms = req.body.social_media_platforms.split(',');//split the dictionary
+          
+            // Use transaction for atomicity
+            return knex.transaction(async (trx) => {
+              // Iterate over social media platforms and insert a new row for each
+              for (const platform of socialMediaPlatforms) {
+                await knex('social_media_platforms')
+                  .transacting(trx)
+                  .insert({
+                    timestamp: knex.fn.now(),
+                    age: req.body.age,
+                    gender: req.body.gender,
+                    relationship_status: req.body.relationship,
+                    social_media_platform: platform.trim(), // Trim to remove any leading/trailing spaces
+                  });
+              }
+            });
           })
           .then(() => {
             return knex('organization_affiliations') //insert data into organization affiliations table
