@@ -169,7 +169,7 @@ app.post('/survey', (req, res) => {
                     age: req.body.age,
                     gender: req.body.gender,
                     relationship_status: req.body.relationship,
-                    social_media_platform:organization
+                    organization_affiliation: organization
               });
               }
             })
