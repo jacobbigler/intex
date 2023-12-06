@@ -173,7 +173,6 @@ app.post('/survey', (req, res) => {
               });
               }
             })
-          })
           .then(trx.commit)
           .catch(trx.rollback)
       .then(() => {
@@ -184,6 +183,7 @@ app.post('/survey', (req, res) => {
         res.status(500).send('Internal Server Error');
       });
     })
+  });
 
 app.get("/editUser/:id", (req, res)=> {
     knex.select("u.city",
