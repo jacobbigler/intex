@@ -101,6 +101,28 @@ app.post('/survey', (req, res) => {
                 sleep_issues: req.body.sleep_issues
               });
           })
+          .then(() => {
+            return knex('social_media_platforms') //insert data into social_media_platforms table
+              .transacting(trx)
+              .insert({
+                timestamp: knex.fn.now(),
+                age: req.body.age ,
+                gender: req.body.gender ,
+                relationship_status: req.body.relationship ,
+                social_media_platform: req.body.social_media_platforms
+              });
+          })
+          .then(() => {
+            return knex('organization_affiliations') //insert data into social_media_platforms table
+              .transacting(trx)
+              .insert({
+                timestamp: knex.fn.now(),
+                age: req.body.age ,
+                gender: req.body.gender ,
+                relationship_status: req.body.relationship ,
+                organization_affiliation: req.body.organizations
+              });
+          })
           .then(trx.commit)
           .catch(trx.rollback);
       })
