@@ -9,26 +9,67 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            background-color: #f0f7ff; /* Light blue background color */
+            color: #1b2f45; /* Dark blue text color */
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif; /* Montserrat font for the title */
+            color: #1b2f45; /* Dark blue text color */
         }
 
         fieldset {
             margin-bottom: 20px;
             padding: 10px;
+            border: 2px solid #1b2f45; /* Dark blue border */
+            border-radius: 8px;
+            background-color: #fff; /* White background */
         }
 
         legend {
             font-weight: bold;
             font-size: 1.2em;
+            color: #1b2f45; /* Dark blue text color */
         }
 
         label {
             display: block;
             margin-bottom: 8px;
+            color: #1b2f45; /* Dark blue text color */
         }
 
         input[type="checkbox"],
-        input[type="radio"] {
+        input[type="radio"],
+        input[type="number"] {
             margin-right: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #1b2f45; /* Dark blue button color */
+            color: #fff; /* White text color */
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0e1a29; /* Darker blue on hover */
+        }
+
+        .home-button {
+            display: inline-block;
+            padding: 8px 20px;
+            background-color: #1b2f45;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-right: 10px; /* Adjust the margin as needed */
+        }
+
+        .home-button:hover {
+            background-color: #0e1a29;
         }
     </style>
 </head>
@@ -196,7 +237,20 @@
 
         <!-- Submit Button -->
         <input type="submit" value="Submit">
+        <a href="/index.html" class="home-button">Go back to home page</a>
     </form>
+
+    <script>
+        document.getElementById('surveyForm').addEventListener('submit', function(event) {
+            // Prevent the default form submission
+            event.preventDefault();
+  
+            // Perform any form validation here if needed
+  
+            // Redirect to another page after successful form submission
+            window.location.href = "/surveythanks.html"; // Replace with your desired URL
+        });
+    </script>
 </body>
 
 </html>
