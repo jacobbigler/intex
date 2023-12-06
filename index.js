@@ -145,12 +145,9 @@ app.post('/survey', (req, res) => {
           })
           .then(() => {
             const socialMediaPlatforms = req.body.social_media_platforms
-          
-            // Use transaction for atomicity
-            return knex.transaction(async (trx) => {
               // Iterate over social media platforms and insert a new row for each
               for (const platform of socialMediaPlatforms) {
-                await knex('social_media_platforms')
+                return knex('social_media_platforms')
                   .transacting(trx)
                   .insert({
                     timestamp: knex.fn.now(),
@@ -163,19 +160,23 @@ app.post('/survey', (req, res) => {
             });
           })
           .then(() => {
-            return knex('organization_affiliations') //insert data into organization affiliations table
-              .transacting(trx)
-              .insert({
-                timestamp: knex.fn.now(),
-                age: req.body.age ,
-                gender: req.body.gender ,
-                relationship_status: req.body.relationship ,
-                organization_affiliation: req.body.organizations
+            const organizationAffiliations = req.body.organizations
+              // Iterate over affiliations and insert a new row for each
+              for (const organization of organizationAffiliations) {
+                return knex('organization_affiliations')
+                  .transacting(trx)
+                  .insert({
+                    timestamp: knex.fn.now(),
+                    age: req.body.age,
+                    gender: req.body.gender,
+                    relationship_status: req.body.relationship,
+                    social_media_platform:organization
               });
+              }
+            });
           })
           .then(trx.commit)
-          .catch(trx.rollback);
-      })
+          .catch(trx.rollback)
       .then(() => {
         res.redirect('/');
       })
@@ -183,7 +184,6 @@ app.post('/survey', (req, res) => {
         console.error('Error inserting data:', error);
         res.status(500).send('Internal Server Error');
       });
-    });
 
 app.get("/editUser/:id", (req, res)=> {
     knex.select("u.city",
