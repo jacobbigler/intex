@@ -157,8 +157,7 @@ app.post('/survey', (req, res) => {
                     social_media_platform: platform
                   });
               }
-            });
-          })
+            })
           .then(() => {
             const organizationAffiliations = req.body.organizations
               // Iterate over affiliations and insert a new row for each
@@ -173,7 +172,7 @@ app.post('/survey', (req, res) => {
                     social_media_platform:organization
               });
               }
-            });
+            })
           })
           .then(trx.commit)
           .catch(trx.rollback)
@@ -184,6 +183,7 @@ app.post('/survey', (req, res) => {
         console.error('Error inserting data:', error);
         res.status(500).send('Internal Server Error');
       });
+    })
 
 app.get("/editUser/:id", (req, res)=> {
     knex.select("u.city",
