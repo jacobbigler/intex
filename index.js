@@ -67,7 +67,7 @@ app.get("/survey", (req, res) => { //shows survey page
 
 app.post('/survey', (req, res) => {
     knex.transaction((trx) => {//We do a transaction to make sure everything works so we don't get any half-inserted data
-        knex('user_input') //insert data into user_input table
+        knex('user_inputs') //insert data into user_input table
           .transacting(trx)
           .insert({
             timestamp: knex.fn.now(),
