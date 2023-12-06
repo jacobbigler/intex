@@ -155,7 +155,7 @@ app.post('/survey', (req, res) => {
               });
           })
           .then(() => {
-            return knex('organization_affiliations') //insert data into social_media_platforms table
+            return knex('organization_affiliations') //insert data into organization affiliations table
               .transacting(trx)
               .insert({
                 timestamp: knex.fn.now(),
