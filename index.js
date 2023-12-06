@@ -101,6 +101,10 @@ app.get("/surveythanks", (req, res) => { //shows surveythanks page
   res.render("surveythanks");
 });
 
+app.get("/", (req, res) => { //shows index page
+  res.render("index");
+});
+
 
 app.post('/survey', (req, res) => {
     knex.transaction((trx) => {//We do a transaction to make sure everything works so we don't get any half-inserted data
