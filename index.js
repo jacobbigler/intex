@@ -74,7 +74,7 @@ app.get("/report", (req, res) => { //shows report view
           .join({r: "ratings"}, "u.user_id", "=", "r.user_id")
           .join({smp: "social_media_platforms"},  "u.user_id", "=", "smp.user_id")
           .join({oa: "organization_affiliations"},  "u.user_id", "=", "oa.user_id")
-          .where("u.user_id", req.params.id).then(userInput => {
+          .then(userInput => {
         res.render("report", {myuser: userInput});
 });
 });
