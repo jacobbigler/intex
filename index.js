@@ -61,14 +61,13 @@ app.get("/", (req, res) => { //shows landing page
 });
 
 app.get("/survey", (req, res) => { //shows survey page
-    res.render("survey", { myuser : userInput });
+    res.render("survey");
 });
 
 
 app.post('/survey', (req, res) => {
-    knex.transaction((trx) => {
-        // Insert age into 'age_table'
-        knex('user_input')
+    knex.transaction((trx) => {//We do a transaction to make sure everything works so we don't get any half-inserted data
+        knex('user_input') //insert data into user_input table
           .transacting(trx)
           .insert({
             timestamp: knex.fn.now(),
@@ -81,8 +80,7 @@ app.post('/survey', (req, res) => {
             time_usage: req.body.time_spent
           })
           .then(() => {
-            // Insert bothered_by_worries into 'bothered_table'
-            return knex('ratings')
+            return knex('ratings') //insert data into ratings table
               .transacting(trx)
               .insert({
                 timestamp: knex.fn.now(),
@@ -114,7 +112,7 @@ app.post('/survey', (req, res) => {
         res.status(500).send('Internal Server Error');
       });
     });
-    
+
 app.get("/editUser/:id", (req, res)=> {
     knex.select("u.city",
           "u.age",
