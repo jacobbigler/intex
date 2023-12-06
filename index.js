@@ -60,40 +60,61 @@ app.get("/", (req, res) => { //shows landing page
     });
 });
 
-app.get("/survey", (req, res) => { //shows landing page
-    knex.select().from("user_inputs").then( userInput => {
-        res.render("survey", { myuser : userInput });
-    });
+app.get("/survey", (req, res) => { //shows survey page
+    res.render("survey", { myuser : userInput });
 });
 
 
 app.post('/survey', (req, res) => {
-    knex('smu-mh').insert({
-        age: req.body.age ,
-        gender: req.body.gender ,
-        relationship_status: req.body.relationship ,
-        occupation_status: req.body.occupation ,
-        organization_affiliation: req.body.organizations ,
-        social_media_use : req.body.use_social_media ,
-        social_media_platform: req.body.social_media_platforms ,
-        time_usage: req.body.time_spent ,
-        use_without_purpose: req.body.use_without_purpose ,
-        distracted_by_social_media: req.body.distracted_by_social_media ,
-        restless_without_social_media: req.body.restless_without_social_media ,
-        easily_distracted: req.body.easily_distracted ,
-        bothered_by_worries: req.body.bothered_by_worries ,
-        concentration_difficulty: req.body.concentration_difficulty ,
-        compare_self_to_others: req.body.compare_self_to_others ,
-        opinions_about_comparison: req.body.opinions_about_comparison ,
-        seek_validation: req.body.seek_validation ,
-        feel_depressed: req.body.feel_depressed ,
-        daily_activity_interest_fluctuations: req.body.daily_activity_interest_fluctuations ,
-        sleep_issues: req.body.sleep_issues        
-}).then(myuser => {
-    res.redirect("/");
-});
-});
-
+    knex.transaction((trx) => {
+        // Insert age into 'age_table'
+        knex('user_input')
+          .transacting(trx)
+          .insert({
+            timestamp: knex.fn.now(),
+            city: 'Provo',
+            age: req.body.age ,
+            gender: req.body.gender ,
+            relationship_status: req.body.relationship ,
+            occupation_status: req.body.occupation ,
+            social_media_use : req.body.use_social_media ,
+            time_usage: req.body.time_spent
+          })
+          .then(() => {
+            // Insert bothered_by_worries into 'bothered_table'
+            return knex('ratings')
+              .transacting(trx)
+              .insert({
+                timestamp: knex.fn.now(),
+                age: req.body.age ,
+                gender: req.body.gender ,
+                relationship_status: req.body.relationship ,
+                use_without_purpose: req.body.use_without_purpose ,
+                distracted_by_social_media: req.body.distracted_by_social_media ,
+                restless_without_social_media: req.body.restless_without_social_media ,
+                easily_distracted: req.body.easily_distracted ,
+                bothered_by_worries: req.body.bothered_by_worries ,
+                concentration_difficulty: req.body.concentration_difficulty ,
+                compare_self_to_others: req.body.compare_self_to_others ,
+                opinions_about_comparisons: req.body.opinions_about_comparison ,
+                seek_validation: req.body.seek_validation ,
+                feel_depressed: req.body.feel_depressed ,
+                daily_activity_interest_fluctuations: req.body.daily_activity_interest_fluctuations ,
+                sleep_issues: req.body.sleep_issues
+              });
+          })
+          .then(trx.commit)
+          .catch(trx.rollback);
+      })
+      .then(() => {
+        res.redirect('/');
+      })
+      .catch((error) => {
+        console.error('Error inserting data:', error);
+        res.status(500).send('Internal Server Error');
+      });
+    });
+    
 app.get("/editUser/:id", (req, res)=> {
     knex.select("u.city",
           "u.age",
