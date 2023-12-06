@@ -75,7 +75,7 @@ app.get("/report", (req, res) => { //shows report view
           .join({smp: "social_media_platforms"},  "u.user_id", "=", "smp.user_id")
           .join({oa: "organization_affiliations"},  "u.user_id", "=", "oa.user_id")
           .where("u.user_id", req.params.id).then(userInput => {
-        res.render("editUser", {myuser: userInput});
+        res.render("report", {myuser: userInput});
 });
 });
 
