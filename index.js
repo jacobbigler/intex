@@ -106,80 +106,7 @@ app.get("/", (req, res) => { //shows index page
   res.render("index");
 });
 
-
-// app.post('/survey', async (req, res) => {
-//   try {
-//     // Insert data into 'user_inputs' table
-//     const [userId] = await knex('user_inputs')
-//       .insert({
-//         timestamp: knex.fn.now(),
-//         city: 'Provo',
-//         age: req.body.age,
-//         gender: req.body.gender,
-//         relationship_status: req.body.relationship,
-//         occupation_status: req.body.occupation,
-//         social_media_use: req.body.use_social_media,
-//         time_usage: req.body.time_spent,
-//       })
-//       .returning('user_id');
-
-//     // Insert data into 'ratings' table
-//     await knex('ratings')
-//       .insert({
-//         user_id: userId,
-//         timestamp: knex.fn.now(),
-//         age: req.body.age,
-//         gender: req.body.gender,
-//         relationship_status: req.body.relationship,
-//         use_without_purpose: req.body.use_without_purpose,
-//         distracted_by_social_media: req.body.distracted_by_social_media,
-//         restless_without_social_media: req.body.restless_without_social_media,
-//         easily_distracted: req.body.easily_distracted,
-//         bothered_by_worries: req.body.bothered_by_worries,
-//         concentration_difficulty: req.body.concentration_difficulty,
-//         compare_self_to_others: req.body.compare_self_to_others,
-//         opinions_about_comparisons: req.body.opinions_about_comparisons,
-//         seek_validation: req.body.seek_validation,
-//         feel_depressed: req.body.feel_depressed,
-//         daily_activity_interest_fluctuations: req.body.daily_activity_interest_fluctuations,
-//         sleep_issues: req.body.sleep_issues,
-//       });
-
-//     // Insert data into 'social_media_platforms' table for each platform
-//     const socialMediaPlatforms = req.body.social_media_platforms;
-//     for (const platform of socialMediaPlatforms) {
-//       await knex('social_media_platforms')
-//         .insert({
-//           user_id: userId,
-//           timestamp: knex.fn.now(),
-//           age: req.body.age,
-//           gender: req.body.gender,
-//           relationship_status: req.body.relationship,
-//           social_media_platform: platform,
-//         });
-//     }
-
-//     // Insert data into 'organization_affiliations' table for each organization
-//     const organizationAffiliations = req.body.organizations;
-//     for (const organization of organizationAffiliations) {
-//       await knex('organization_affiliations')
-//         .insert({
-//           user_id: userId,
-//           timestamp: knex.fn.now(),
-//           age: req.body.age,
-//           gender: req.body.gender,
-//           relationship_status: req.body.relationship,
-//           organization_affiliation: organization,
-//         });
-//     }
-
-//     res.redirect('/');
-//   } catch (error) {
-//     console.error('Error inserting data:', error);
-//     res.status(500).send('Internal Server Error');
-//   }
-// });
-
+/*
 app.post('/survey', async (req, res) => {
   try {
     // Insert data into 'user_inputs' table
@@ -206,7 +133,18 @@ app.post('/survey', async (req, res) => {
         age: req.body.age,
         gender: req.body.gender,
         relationship_status: req.body.relationship,
-        // ... (other columns)
+        use_without_purpose: req.body.use_without_purpose,
+        distracted_by_social_media: req.body.distracted_by_social_media,
+        restless_without_social_media: req.body.restless_without_social_media,
+        easily_distracted: req.body.easily_distracted,
+        bothered_by_worries: req.body.bothered_by_worries,
+        concentration_difficulty: req.body.concentration_difficulty,
+        compare_self_to_others: req.body.compare_self_to_others,
+        opinions_about_comparisons: req.body.opinions_about_comparisons,
+        seek_validation: req.body.seek_validation,
+        feel_depressed: req.body.feel_depressed,
+        daily_activity_interest_fluctuations: req.body.daily_activity_interest_fluctuations,
+        sleep_issues: req.body.sleep_issues,
       });
 
     // Insert data into 'social_media_platforms' table for each platform
@@ -243,88 +181,94 @@ app.post('/survey', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+*/
 
+app.post('/survey', async (req, res) => {
+  const trx = await knex.transaction();
 
+  try {
+    // Insert data into 'user_inputs' table
+    const [userObject] = await knex('user_inputs')
+      .transacting(trx)
+      .insert({
+        timestamp: knex.fn.now(),
+        city: 'Provo',
+        age: req.body.age,
+        gender: req.body.gender,
+        relationship_status: req.body.relationship,
+        occupation_status: req.body.occupation,
+        social_media_use: req.body.use_social_media,
+        time_usage: req.body.time_spent,
+      })
+      .returning('user_id');
 
+    const userId = userObject.user_id;
 
-// app.post('/survey', (req, res) => {
-//   knex.transaction(async (trx) => {
-//     try {
-//       // Insert data into 'user_inputs' table
-//       await knex('user_inputs')
-//         .transacting(trx)
-//         .insert({
-//           timestamp: knex.fn.now(),
-//           city: 'Provo',
-//           age: req.body.age,
-//           gender: req.body.gender,
-//           relationship_status: req.body.relationship,
-//           occupation_status: req.body.occupation,
-//           social_media_use: req.body.use_social_media,
-//           time_usage: req.body.time_spent,
-//         });
+    // Insert data into 'ratings' table
+    await knex('ratings')
+      .transacting(trx)
+      .insert({
+        user_id: userId,
+        timestamp: knex.fn.now(),
+        age: req.body.age,
+        gender: req.body.gender,
+        relationship_status: req.body.relationship,
+        use_without_purpose: req.body.use_without_purpose,
+        distracted_by_social_media: req.body.distracted_by_social_media,
+        restless_without_social_media: req.body.restless_without_social_media,
+        easily_distracted: req.body.easily_distracted,
+        bothered_by_worries: req.body.bothered_by_worries,
+        concentration_difficulty: req.body.concentration_difficulty,
+        compare_self_to_others: req.body.compare_self_to_others,
+        opinions_about_comparisons: req.body.opinions_about_comparisons,
+        seek_validation: req.body.seek_validation,
+        feel_depressed: req.body.feel_depressed,
+        daily_activity_interest_fluctuations: req.body.daily_activity_interest_fluctuations,
+        sleep_issues: req.body.sleep_issues,
+      });
 
-//       // Insert data into 'ratings' table
-//       await knex('ratings')
-//         .transacting(trx)
-//         .insert({
-//           timestamp: knex.fn.now(),
-//           age: req.body.age,
-//           gender: req.body.gender,
-//           relationship_status: req.body.relationship,
-//           use_without_purpose: req.body.use_without_purpose,
-//           distracted_by_social_media: req.body.distracted_by_social_media,
-//           restless_without_social_media: req.body.restless_without_social_media,
-//           easily_distracted: req.body.easily_distracted,
-//           bothered_by_worries: req.body.bothered_by_worries,
-//           concentration_difficulty: req.body.concentration_difficulty,
-//           compare_self_to_others: req.body.compare_self_to_others,
-//           opinions_about_comparisons: req.body.opinions_about_comparisons,
-//           seek_validation: req.body.seek_validation,
-//           feel_depressed: req.body.feel_depressed,
-//           daily_activity_interest_fluctuations: req.body.daily_activity_interest_fluctuations,
-//           sleep_issues: req.body.sleep_issues,
-//         });
+    // Insert data into 'social_media_platforms' table for each platform
+    const socialMediaPlatforms = req.body.social_media_platforms;
+    for (const platform of socialMediaPlatforms) {
+      await knex('social_media_platforms')
+        .transacting(trx)
+        .insert({
+          user_id: userId,
+          timestamp: knex.fn.now(),
+          age: req.body.age,
+          gender: req.body.gender,
+          relationship_status: req.body.relationship,
+          social_media_platform: platform,
+        });
+    }
 
-//       // Insert data into 'social_media_platforms' table for each platform
-//       const socialMediaPlatforms = req.body.social_media_platforms;
-//       for (const platform of socialMediaPlatforms) {
-//         await knex('social_media_platforms')
-//           .transacting(trx)
-//           .insert({
-//             timestamp: knex.fn.now(),
-//             age: req.body.age,
-//             gender: req.body.gender,
-//             relationship_status: req.body.relationship,
-//             social_media_platform: platform,
-//           });
-//       }
+    // Insert data into 'organization_affiliations' table for each organization
+    const organizationAffiliations = req.body.organizations;
+    for (const organization of organizationAffiliations) {
+      await knex('organization_affiliations')
+        .transacting(trx)
+        .insert({
+          user_id: userId,
+          timestamp: knex.fn.now(),
+          age: req.body.age,
+          gender: req.body.gender,
+          relationship_status: req.body.relationship,
+          organization_affiliation: organization,
+        });
+    }
 
-//       // Insert data into 'organization_affiliations' table for each organization
-//       const organizationAffiliations = req.body.organizations;
-//       for (const organization of organizationAffiliations) {
-//         await knex('organization_affiliations')
-//           .transacting(trx)
-//           .insert({
-//             timestamp: knex.fn.now(),
-//             age: req.body.age,
-//             gender: req.body.gender,
-//             relationship_status: req.body.relationship,
-//             organization_affiliation: organization,
-//           });
-//       }
+    // Commit the transaction if all inserts are successful
+    await trx.commit();
 
-//       // Commit the transaction if all inserts are successful
-//       await trx.commit();
-//       res.redirect('/');
-//     } catch (error) {
-//       // Rollback the transaction if there's an error
-//       await trx.rollback();
-//       console.error('Error inserting data:', error);
-//       res.status(500).send('Internal Server Error');
-//     }
-//   });
-// });
+    res.redirect('/');
+  } catch (error) {
+    // Rollback the transaction if there's an error
+    await trx.rollback();
+    console.error('Error inserting data:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 
 app.get("/editUser/:id", (req, res)=> {
     knex.select("u.city",
