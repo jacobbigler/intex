@@ -136,7 +136,7 @@ app.post('/survey', (req, res) => {
                 bothered_by_worries: req.body.bothered_by_worries ,
                 concentration_difficulty: req.body.concentration_difficulty ,
                 compare_self_to_others: req.body.compare_self_to_others ,
-                opinions_about_comparisons: req.body.opinions_about_comparison ,
+                opinions_about_comparisons: req.body.opinions_about_comparisons ,
                 seek_validation: req.body.seek_validation ,
                 feel_depressed: req.body.feel_depressed ,
                 daily_activity_interest_fluctuations: req.body.daily_activity_interest_fluctuations ,
