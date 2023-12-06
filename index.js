@@ -60,6 +60,12 @@ app.get("/", (req, res) => { //shows landing page
     });
 });
 
+app.get("/survey", (req, res) => { //shows landing page
+    knex.select().from("user_inputs").then( userInput => {
+        res.render("survey", { myuser : userInput });
+    });
+});
+
 
 app.post('/survey', (req, res) => {
     knex('smu-mh').insert({
