@@ -65,7 +65,7 @@ app.get("/report", (req, res) => { //shows report view
           "r.bothered_by_worries",
           "r.concentration_difficulty",
           "r.compare_self_to_others",
-          "r.opinions_about_comparison",
+          "r.opinions_about_comparisons",
           "r.seek_validation",
           "r.feel_depressed",
           "r.daily_activity_interest_fluctuations",
