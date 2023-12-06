@@ -143,11 +143,13 @@ app.post('/survey', (req, res) => {
                 sleep_issues: req.body.sleep_issues
               });
           })
+        })
           .then(() => {
             const socialMediaPlatforms = req.body.social_media_platforms
+            return knex.transaction(async (trx) => {
               // Iterate over social media platforms and insert a new row for each
               for (const platform of socialMediaPlatforms) {
-                return knex('social_media_platforms')
+                await knex('social_media_platforms')
                   .transacting(trx)
                   .insert({
                     timestamp: knex.fn.now(),
@@ -160,9 +162,10 @@ app.post('/survey', (req, res) => {
             })
           .then(() => {
             const organizationAffiliations = req.body.organizations
+            return knex.transaction(async (trx) => {
               // Iterate over affiliations and insert a new row for each
               for (const organization of organizationAffiliations) {
-                return knex('organization_affiliations')
+                await knex('organization_affiliations')
                   .transacting(trx)
                   .insert({
                     timestamp: knex.fn.now(),
@@ -184,6 +187,7 @@ app.post('/survey', (req, res) => {
       });
     })
   });
+});
 
 app.get("/editUser/:id", (req, res)=> {
     knex.select("u.city",
