@@ -49,7 +49,8 @@ const knex = require("knex")({
 //GET requests below:
 
 app.get("/report", (req, res) => { //shows report view
-    knex.select("u.city",
+    knex.select("u.timestamp",
+          "u.city",
           "u.age",
           "u.gender",
           "u.relationship_status",
