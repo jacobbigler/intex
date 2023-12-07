@@ -50,7 +50,7 @@ const knex = require("knex")({
 
 //GET requests below:
 
-app.get("/report", (req, res) => { //shows report view
+app.get("/report", verifyToken, (req, res) => { //shows report view
     knex.select("u.timestamp",
           "u.city",
           "u.age",
@@ -227,6 +227,24 @@ app.get("/editUser/:id", (req, res)=> {
    });
  })
 
+ // Middleware to verify JWT
+function verifyToken(req, res, next) {
+  const token = req.headers.authorization;
+
+  if (!token) {
+    return res.status(403).json({ error: 'No token provided' });
+  }
+
+  jwt.verify(token, secretKey, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ error: 'Failed to authenticate token' });
+    }
+
+    req.user = decoded;  // Attach user information to the request object
+    next();
+  });
+}
+
  app.post("/register", async (req, res) => {
   try {
     const existingUser = await knex("login").where({ username: req.body.username }).first();
@@ -241,6 +259,12 @@ app.get("/editUser/:id", (req, res)=> {
       username: req.body.username,
       password: req.body.password
     });
+
+    //generate JWT up registration
+    const token = jwt.sign({ username: req.body.username }, secretKey);
+
+    res.status(201).json({ token });
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Internal server error' });
@@ -262,6 +286,13 @@ app.post("/login", async (req, res) => {
     if (password !== user.password) {
       return res.status(401).json({ error: 'Invalid username or password' });
     }
+
+    //generate token when logging in
+    const token = jwt.sign({ username: req.body.username }, secretKey);
+
+    console.log(token);
+
+    res.status(200).json({ token });
 
   } catch (err) {
     console.error(err);

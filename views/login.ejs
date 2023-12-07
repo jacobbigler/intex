@@ -127,7 +127,7 @@
     <body>
       
       <div class="login-container">
-        <form action="/login" method="post" class="login-form" id="login">
+        <form action="/login" method="post" class="login-form" id="login" onsubmit="handleLoginFormSubmit(event)">
           <h2 >Login</h2>
           <div class="input-group">
             <label for="username">Username</label>
@@ -137,18 +137,13 @@
             <label for="password">Password</label>
             <input type="password" id="password" name="password" required>
           </div>
-          <button type="submit" onclick="redirect()">Login</button>
+          <button type="submit">Login</button>
         </form>
       </div>
 
       <a href="/" class="back-to-home">Go back to Home</a>
 
-      <script>
-        function redirect() {
-          window.location.href="/";
-        }
-      </script>
-
+      <script src="/js/auth.js"></script>
 
 </body>
 </html>
