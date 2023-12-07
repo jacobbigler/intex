@@ -7,18 +7,18 @@
 </head>
 <body>
       <!-- Add a form with a dropdown for filtering by user ID -->
-    <form action="/report" method="post">
-      <label for="userIdFilter">Filter by User ID:</label>
-      <select name="userIdFilter" id="userIdFilter">
-        <!-- Add an "All" option -->
+      <form action="/report" method="post">
+        <label for="userIdFilter">Filter by User ID:</label>
+        <select name="userIdFilter" id="userIdFilter">
+          <!-- Add an "All" option -->
           <option value="all">All</option>  
-        <!-- Populate the dropdown options with user IDs from the data -->
-        <% for (let iCount = 0; iCount < myuser.length; iCount++) { %>
-          <option value="<%= myuser[iCount].user_id %>"><%= myuser[iCount].user_id %></option>
-        <% } %>
-      </select>
-      <button type="submit">Filter</button>
-    </form>
+          <!-- Populate the dropdown options with distinct user IDs -->
+          <% for (let i = 0; i < distinctUserIds.length; i++) { %>
+            <option value="<%= distinctUserIds[i] %>"><%= distinctUserIds[i] %></option>
+          <% } %>
+        </select>
+        <button type="submit">Filter</button>
+      </form>
 
    <label><b>User Information:</b></label>
    <br><br>
