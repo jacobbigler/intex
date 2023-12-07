@@ -6,96 +6,100 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Social Media and Well-being Survey</title>
     <style>
-       body {
-      font-family: 'Arial', sans-serif;
-      margin: 20px;
-      background-color: #f6f6f6;
-      color: #333;
-      line-height: 1.6;
-     }
-  
-      h1 {
-          font-family: 'Montserrat', sans-serif;
-          color: #1b2f45;
-          text-align: center;
-          margin-bottom: 20px;
-      }
-  
-      fieldset {
-          margin-bottom: 20px;
-          padding: 20px;
-          border: 1px solid #ccc;
-          border-radius: 8px;
-          background-color: #fff;
-      }
-  
-      legend {
-          font-weight: bold;
-          font-size: 1.2em;
-          color: #1b2f45;
-          margin-bottom: 10px;
-      }
-  
-      label {
-          display: block;
-          margin-bottom: 5px;
-          color: #1b2f45;
-          font-weight: 700; /* Set the font-weight to bold */
-      }
-      
-  
-      input[type="number"],
-      input[type="radio"],
-      input[type="checkbox"] {
-          margin-bottom: 10px;
-          color: #333;
-          border: 1px solid #ccc;
-          padding: 8px;
-          border-radius: 4px;
-      }
-  
-      input[type="submit"],
-      .home-button {
-          display: inline-block;
-          padding: 10px 20px;
-          background-color: #1b2f45;
-          color: #fff;
-          text-decoration: none;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-          transition: background-color 0.3s ease;
-      }
-  
-      input[type="submit"]:hover,
-      .home-button:hover {
-          background-color: #0e1a29;
-      }
-  
-      /* Additional Styling for radio buttons and checkboxes */
-      input[type="radio"] + label,
-      input[type="checkbox"] + label {
-          margin-right: 15px;
-          color: #333;
-      }
+        body {
+    font-family: 'Arial', sans-serif;
+    margin: 20px;
+    background-color: #f6f6f6;
+    color: #333;
+    line-height: 1.6;
+}
 
-      input[type="submit"] {
-        display: inline-block;
-        padding: 12px 20px;
-        background-color: #1b2f45;
-        color: #fff;
-        text-decoration: none;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        /* Increased font size for the submit button text */
-        font-size: 18px; /* Adjust the font size as needed */
-  }
+h1 {
+    font-family: 'Montserrat', sans-serif;
+    color: #1b2f45;
+    text-align: center;
+    margin-bottom: 20px;
+}
 
-      input[type="submit"]:hover {
-          background-color: #0e1a29;
-      }
+fieldset {
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 950px; /* Set the maximum width */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+legend {
+    font-weight: bold;
+    font-size: 1.2em;
+    color: #1b2f45;
+    margin-bottom: 10px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #1b2f45;
+    font-weight: 600;
+}
+
+/* Style radio and checkbox buttons to appear on the same row */
+input[type="radio"],
+input[type="checkbox"] {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+/* Additional Styling for radio buttons and checkboxes */
+input[type="radio"] + label,
+input[type="checkbox"] + label {
+    display: inline-block;
+    margin-right: 15px;
+    color: #333;
+}
+
+input[type="number"],
+input[type="radio"],
+input[type="checkbox"] {
+    margin-bottom: 10px;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 8px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    vertical-align: middle;
+}
+
+input[type="submit"],
+.home-button {
+    display: inline-block;
+    padding: 12px 20px;
+    background-color: #1b2f45;
+    
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 18px;
+}
+
+input[type="submit"]:hover,
+.home-button:hover {
+    background-color: #0e1a29;
+}
+
+/* Responsive Design */
+@media only screen and (max-width: 600px) {
+    body {
+        font-size: 14px;
+    }
+}
 
       
     </style>
@@ -107,12 +111,12 @@
         <!-- Personal Information -->
         <fieldset>
             <legend>Personal Information:</legend>
-            <label for="age">Age</label>
+            <label for="age">Age:</label>
             <input type="number" name="age" id="age" required>
 
             <!-- Add radio buttons for other age groups -->
 
-            <br> <br><label for="gender">Gender</label>
+            <br> <br><label for="gender">Gender:</label>
             <input type="radio" name="gender" value="Male" required> Male</label>
             <input type="radio" name="gender" value="Female" required> Female</label>
             <input type="radio" name="gender" value="Nonbinary" required> Nonbinary</label>
@@ -231,12 +235,12 @@
             <input type="radio" name="compare_self_to_others" value="5" id="compare_self_to_others_5" required> Always</label>
             <!-- ... (unchanged) -->
 
-            <br> <br><label for="opinions_about_comparisons">Following the previous question, how do you feel about these comparisons, generally speaking?</label>
-            <input type="radio" name="opinions_about_comparisons" value="1" id="opinions_about_comparisons_1" required> Never</label>
-            <input type="radio" name="opinions_about_comparisons" value="2" id="opinions_about_comparisons_2" required> Rarely</label>
-            <input type="radio" name="opinions_about_comparisons" value="3" id="opinions_about_comparisons_3" required> Sometimes</label>
-            <input type="radio" name="opinions_about_comparisons" value="4" id="opinions_about_comparisons_4" required> Often</label>
-            <input type="radio" name="opinions_about_comparisons" value="5" id="opinions_about_comparisons_5" required> Always</label>
+            <br> <br><label for="opinions_about_comparisons">On a scale of 1 (Negative) to 5 (Positive), how do you feel about these comparisons, generally speaking?</label>
+            <input type="radio" name="opinions_about_comparisons" value="1" id="opinions_about_comparisons_1" required> 1</label>
+            <input type="radio" name="opinions_about_comparisons" value="2" id="opinions_about_comparisons_2" required> 2</label>
+            <input type="radio" name="opinions_about_comparisons" value="3" id="opinions_about_comparisons_3" required> 3</label>
+            <input type="radio" name="opinions_about_comparisons" value="4" id="opinions_about_comparisons_4" required> 4</label>
+            <input type="radio" name="opinions_about_comparisons" value="5" id="opinions_about_comparisons_5" required> 5</label>
             <!-- ... (unchanged) -->
 
             <br> <br><label for="seek_validation">How often do you look to seek validation from features of social media?</label>
