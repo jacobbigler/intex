@@ -55,12 +55,14 @@ app.use(
   })
 );
 
-// Custom middleware to set authenticated variable
+// Custom middleware to set authenticated and admin variables
 app.use((req, res, next) => {
   const isAuthenticated = req.session && req.session.authenticated;
+  const isAdmin = req.session && req.session.admin;
 
-  // Make the authenticated variable available to all views
+  // Make the authenticated and admin variables available to all views
   res.locals.authenticated = isAuthenticated;
+  res.locals.admin = isAdmin;
 
   // Continue to the next middleware
   next();
