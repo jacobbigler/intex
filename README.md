@@ -11,8 +11,12 @@ Log in as Admin on webpage{
     Password: intexfun
 }
 
-Domain{
-    https://intex-311.us-east-1.elasticbeanstalk.com/
+Original Domain{
+    http://intex-311.us-east-1.elasticbeanstalk.com/
+}
+
+A Record{
+    https://intex311.is404.net
 }
 
 
