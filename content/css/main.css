@@ -85,7 +85,7 @@ section {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Adjust height if needed */
+  height: 150vh; /* Adjust height if needed */
 }
 
 /* Set the maximum width for the Tableau visualization */
