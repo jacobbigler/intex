@@ -227,13 +227,24 @@ app.get("/editUser/:id", (req, res)=> {
    });
  })
 
- app.post("/register", (req, res) => {
-  knex("login")
-    .insert({
+ app.post("/register", async (req, res) => {
+  try {
+    const existingUser = await knex("login").where({ username: req.body.username }).first();
+
+    if (existingUser) {
+      // Username already exists, return an error response
+      return res.status(400).json({ error: 'Username already exists' });
+    }
+
+    // Username doesn't exist, proceed with registration
+    await knex("login").insert({
       username: req.body.username,
       password: req.body.password
-    }).catch( err => {
-      console.log(err);
-      res.status(500).json({err});
-   });
- })
+    });
+
+    res.status(200).json({ message: 'Registration successful' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
