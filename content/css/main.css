@@ -81,6 +81,20 @@ section {
   position: relative;
 }
 
+.tableau {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Adjust height if needed */
+}
+
+/* Set the maximum width for the Tableau visualization */
+.tableau .tableauPlaceholder {
+  max-width: 1000px; /* Adjust as per your preference */
+  width: 100%;
+  text-align: center; /* Optional: Center the content horizontally */
+}
+
 .section-header h2:after {
   content: "";
   position: absolute;
