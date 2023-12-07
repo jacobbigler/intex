@@ -93,6 +93,8 @@ section {
   max-width: 1000px; /* Adjust as per your preference */
   width: 100%;
   text-align: center; /* Optional: Center the content horizontally */
+  border: 1px solid #1b2f45; /* Border style */
+  padding: 10px; /* Optional: Add padding around the border */
 }
 
 .section-header h2:after {
