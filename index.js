@@ -12,19 +12,29 @@ const ENV_VARIABLES = {
 };
 const port = process.env.PORT || 3000;
 const path = require("path");
-const jwt = require("jsonwebtoken")
-const secretKey = 'intex'
-
+const session = require('express-session');
 
 //Define & Configure Express:
 let express = require("express");
 let app = express();
+
+//create an authenticated variable
+let authenticated = false;
 
 // Serve static files from the "content" directory
 app.use(express.static('content'));
 
 // Parse incoming requests:
 app.use(express.urlencoded({ extended: true }));
+
+//use the session
+app.use(
+  session({
+    secret: 'intex',
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 
 //Define EJS location:
 app.set("view engine", "ejs");
@@ -50,7 +60,7 @@ const knex = require("knex")({
 
 //GET requests below:
 
-app.get("/report", (req, res) => { //shows report view
+app.get("/report", authenticateMiddleware, (req, res) => { //shows report view
     knex.select("u.timestamp",
           "u.city",
           "u.age",
@@ -233,6 +243,17 @@ app.get("/editUser/:id", (req, res)=> {
   })
  })
 
+//middleware function that checks the authenticated variable
+const authenticateMiddleware = (req, res, next) => {
+  if (authenticated) {
+    // User is authenticated, allow access to the next middleware or route
+    next();
+  } else {
+    // User is not authenticated, redirect to a login page or send an error response
+    res.status(401).json({ error: 'Authentication required' });
+  }
+};
+
  app.post("/register", async (req, res) => {
   try {
     const existingUser = await knex("login").where({ username: req.body.username }).first();
@@ -269,6 +290,10 @@ app.post("/login", async (req, res) => {
     if (password !== user.password) {
       return res.status(401).json({ error: 'Invalid username or password' });
     };
+
+    authenticated = true;
+
+    res.status(200).json({ message: 'Authentication successful' })
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Internal server error' });
