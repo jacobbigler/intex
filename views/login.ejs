@@ -142,44 +142,5 @@
       </div>
 
       <a href="/" class="back-to-home">Go back to Home</a>
-
-<script>
-  async function handleLoginFormSubmit(event) {
-    event.preventDefault();
-
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-
-    try {
-      const response = await fetch('/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      });
-
-      if (!response.ok) {
-        // Handle authentication error
-        console.error('Authentication failed');
-        return;
-      }
-
-      const { token } = await response.json();
-
-      // Store the JWT in localStorage
-      localStorage.setItem('jwtToken', token);
-      console.log(token);
-
-      window.location.href = '/';  // Redirect to the homepage
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  }
-
-  // Attach the event listener to the form
-  document.getElementById('login').addEventListener('submit', handleLoginFormSubmit);
-</script>
-
 </body>
 </html>
