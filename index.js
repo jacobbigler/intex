@@ -226,3 +226,14 @@ app.get("/editUser/:id", (req, res)=> {
       res.status(500).json({err});
    });
  })
+
+ app.post("/register", (req, res) => {
+  knex("login")
+    .insert({
+      username: req.body.username,
+      password: req.body.password
+    }).catch( err => {
+      console.log(err);
+      res.status(500).json({err});
+   });
+ })
