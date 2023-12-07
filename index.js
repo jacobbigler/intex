@@ -200,40 +200,42 @@ const knex = require("knex")({
 // });
 // }});
 
-// Add a new function to fetch distinct user IDs
-async function getDistinctUserIds() {
-  const distinctUserIds = await knex('user_inputs').distinct('user_id');
-  return distinctUserIds.map(row => row.user_id);
+// Function to get unique user IDs
+async function getUniqueAndSortedUserIds() {
+  const userIds = await knex.select('user_id').from('user_inputs');
+  const uniqueUserIds = [...new Set(userIds.map(entry => entry.user_id))];
+  const sortedUserIds = uniqueUserIds.sort((a, b) => a - b);
+  return sortedUserIds;
 }
 
-// Modify your GET route to fetch distinct user IDs
 app.get("/report", authenticateMiddleware, async (req, res) => {
   try {
-    const distinctUserIds = await getDistinctUserIds();
+    // Fetch unique and sorted user IDs
+    const sortedUserIds = await getUniqueAndSortedUserIds();
 
-    // Fetch survey results for the first user ID by default
-    const selectedUserId = distinctUserIds[0];
+    // Fetch survey results based on the selected user ID from the request or use the first user ID by default
+    const selectedUserId = req.query.userIdFilter || sortedUserIds[0];
     const surveyResults = await fetchSurveyResults(selectedUserId);
 
-    res.render("report", { myuser: surveyResults, distinctUserIds: distinctUserIds });
+    // Render the report page with survey results, unique and sorted user IDs
+    res.render("report", { myuser: surveyResults, sortedUserIds: sortedUserIds, selectedUserId: selectedUserId });
   } catch (error) {
     console.error('Error fetching data:', error);
     res.status(500).send('Internal Server Error');
   }
 });
 
-// Modify the POST route to use the selected user ID or fetch all results
 app.post("/report", authenticateMiddleware, async (req, res) => {
   try {
-    const selectedUserId = req.body.userIdFilter;
+    // Fetch unique and sorted user IDs
+    const sortedUserIds = await getUniqueAndSortedUserIds();
 
-    // Fetch survey results based on the selected user ID or fetch all results if "All" is selected
+    // Fetch survey results based on the selected user ID from the request
+    const selectedUserId = req.body.userIdFilter;
     const surveyResults = await fetchSurveyResults(selectedUserId);
 
-    // Fetch distinct user IDs for rendering the form
-    const distinctUserIds = await getDistinctUserIds();
-
-    res.render("report", { myuser: surveyResults, distinctUserIds: distinctUserIds });
+    // Render the report page with survey results, unique and sorted user IDs
+    res.render("report", { myuser: surveyResults, sortedUserIds: sortedUserIds, selectedUserId: selectedUserId });
   } catch (error) {
     console.error('Error fetching data:', error);
     res.status(500).send('Internal Server Error');
