@@ -127,7 +127,7 @@
     <body>
       
       <div class="login-container">
-        <form class="login-form" id="login">
+        <form action="/login" method="post" class="login-form" id="login">
           <h2 >Login</h2>
           <div class="input-group">
             <label for="username">Username</label>
@@ -146,7 +146,6 @@
 
       <script>
         document.getElementById('login').addEventListener('submit', function(event) {
-          event.preventDefault();
           let username = document.getElementById('username').value
           let password = document.getElementById('password').value
 

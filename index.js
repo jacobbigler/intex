@@ -248,3 +248,27 @@ app.get("/editUser/:id", (req, res)=> {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+app.post("/login", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    // Query the database to get user information
+    const user = await knex("login").where({ username }).first();
+
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid username or password' });
+    }
+
+    // Compare the provided password with the stored password from the database
+    if (password !== user.password) {
+      return res.status(401).json({ error: 'Invalid username or password' });
+    }
+
+    // Authentication successful - you can generate a token or set a session here
+    res.status(200).json({ message: 'Authentication successful' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
