@@ -145,22 +145,50 @@
 
 
       <script>
-        document.getElementById('login').addEventListener('submit', function(event) {
-          let username = document.getElementById('username').value
-          let password = document.getElementById('password').value
+          // Function to store the token in localStorage
+  function storeToken(token) {
+    localStorage.setItem('token', token);
+  }
 
-          let registeredUsername = localStorage.getItem('username')
-          let registeredPassword = localStorage.getItem('password')
-          
-          if (username === registeredUsername && password === registeredPassword) {
-            alert('Login successful!');
-            // Redirect to dashboard or perform any other action after successful login 
-            window.location.href = '/'
-          } else {
-            alert('Invalid username or password. Please try again.');
-          }
+  // Function to make a login request
+  async function login(username, password) {
+    try {
+      const response = await fetch('/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
 
-        });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error);
+      }
+
+      const data = await response.json();
+
+      // Store the token immediately after a successful login
+      storeToken(data.token);
+
+      // Optionally, navigate to another page or perform other actions
+      console.log('Login successful. Token:', data.token);
+    } catch (error) {
+      console.error('Login failed:', error.message);
+    }
+  }
+
+  // Example usage: Call login when the user submits the login form
+  // You can trigger this function based on user actions (e.g., form submission)
+  // For example:
+  document.getElementById('loginForm').addEventListener('submit', function (event) {
+    event.preventDefault(); // Prevent the form from submitting in the traditional way
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    login(username, password);
+  });
 
       </script>
 

@@ -337,8 +337,10 @@ app.post('/login', async (req, res) => {
     const token = jwt.sign({ username: user.username, userId: user.id }, secretKey, { expiresIn: '1h' });
 
     // Send the JWT to the client
+    // res.json({ token });
     res.json({ token });
-    res.locals.token = token//store it in the local storage
+
+    res.redirect('/');
 
   } catch (err) {
     console.error(err);
