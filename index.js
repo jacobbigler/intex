@@ -12,6 +12,8 @@ const ENV_VARIABLES = {
 };
 const port = process.env.PORT || 3000;
 const path = require("path");
+const jwt = require("jsonwebtoken")
+const secretKey = 'intex'
 
 
 //Define & Configure Express:
@@ -94,8 +96,9 @@ app.get("/login", (req, res) => { //shows login page
   res.render("login");
 });
 
-app.get("/register", (req, res) => { //shows register page
-  res.render("register");
+app.get('/register', authenticateToken, (req, res) => {
+  // If the user is authenticated, redirect them to another page
+  res.render('register');
 });
 
 app.get("/surveythanks", (req, res) => { //shows surveythanks page
@@ -247,24 +250,95 @@ app.get("/editUser/:id", (req, res)=> {
   }
 });
 
-app.post("/login", async (req, res) => {
+// app.post("/login", async (req, res) => {
+//   try {
+//     const { username, password } = req.body;
+
+//     // Query the database to get user information
+//     const user = await knex("login").where({ username }).first();
+
+//     if (!user) {
+//       return res.status(401).json({ error: 'Invalid username or password' });
+//     }
+
+//     // Compare the provided password with the stored password from the database
+//     if (password !== user.password) {
+//       return res.status(401).json({ error: 'Invalid username or password' });
+//     }
+
+//     // Create a JWT with user information
+//     const token = jwt.sign({ username: user.username, userId: user.id }, secretKey, { expiresIn: '1h' });
+
+//     // Send the JWT to the client
+//     res.json({ token });
+
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: 'Internal server error' });
+//   }
+// });
+
+// //function for authentication
+// function authenticateToken(req, res, next) {
+//   const token = req.headers['authorization'];
+
+//   if (!token) {
+//     return res.status(401).json({ error: 'Unauthorized: Token missing' });
+//   }
+
+//   jwt.verify(token, secretKey, (err, user) => {
+//     if (err) {
+//       return res.status(403).json({ error: 'Forbidden: Invalid token' });
+//     }
+
+//     req.user = user; // Attach user information to the request
+//     next();
+//   });
+// }
+
+async function login(username, password) {
   try {
-    const { username, password } = req.body;
+    const response = await fetch('/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password }),
+    });
 
-    // Query the database to get user information
-    const user = await knex("login").where({ username }).first();
-
-    if (!user) {
-      return res.status(401).json({ error: 'Invalid username or password' });
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error);
     }
 
-    // Compare the provided password with the stored password from the database
-    if (password !== user.password) {
-      return res.status(401).json({ error: 'Invalid username or password' });
-    }
+    const data = await response.json();
+    const token = data.token;
 
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Internal server error' });
+    // Store the token in localStorage
+    localStorage.setItem('token', token);
+
+    return token;
+  } catch (error) {
+    console.error('Login failed:', error.message);
+    throw error;
   }
-});
+}
+
+// Example usage of the login function
+login('yourUsername', 'yourPassword')
+  .then(token => {
+    console.log('Login successful. Token:', token);
+
+    // Make authenticated requests using the token
+    fetch('/protected-page', {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    })
+      .then(response => response.json())
+      .then(data => console.log('Response from protected page:', data))
+      .catch(error => console.error('Error:', error));
+  })
+  .catch(error => {
+    console.error('Login failed:', error.message);
+  });
