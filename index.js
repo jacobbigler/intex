@@ -241,8 +241,6 @@ app.get("/editUser/:id", (req, res)=> {
       username: req.body.username,
       password: req.body.password
     });
-
-    res.status(200).json({ message: 'Registration successful' });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Internal server error' });
@@ -265,8 +263,6 @@ app.post("/login", async (req, res) => {
       return res.status(401).json({ error: 'Invalid username or password' });
     }
 
-    // Authentication successful - you can generate a token or set a session here
-    res.status(200).json({ message: 'Authentication successful' });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Internal server error' });
