@@ -109,7 +109,7 @@ app.get("/report", authenticateMiddleware, async (req, res) => {
     const sortedUserIds = await getUniqueAndSortedUserIds();
 
     // Fetch survey results based on the selected user ID from the request or use the first user ID by default
-    const selectedUserId = req.query.userIdFilter || sortedUserIds[0];
+    const selectedUserId = 'all';
     const surveyResults = await fetchSurveyResults(selectedUserId);
 
     // Render the report page with survey results, unique and sorted user IDs
