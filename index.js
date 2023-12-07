@@ -283,11 +283,22 @@ app.post('/survey', async (req, res) => {
   }
 });
 
+//gets page full of all accounts created
  app.get("/usernames", (req, res) => {
   knex.select().from("login").then(userInput => {
     res.render("usernames", {myuser: userInput});
   })
- })
+ });
+
+ //deletes chosen account
+ app.post("/deleteUser/:id", (req, res) => {
+  knex("login").where("username",req.params.id).del().then( myuser => {
+    res.redirect("/usernames");
+ }).catch( err => {
+    console.log(err);
+    res.status(500).json({err});
+ });
+});
 
  app.post("/register", async (req, res) => {
   try {
@@ -358,4 +369,5 @@ app.get("/logout", (req, res) => {
 
 app.get("/register", adminMiddleware, (req, res) => {
   res.render("register");
-})
+});
+

@@ -21,6 +21,11 @@
          <tr>
            <td><%= myuser[iCount].username %></td>
            <td><%= myuser[iCount].password %></td>
+           <td style="text-align: center;">
+            <form action="/deleteUser/<%= myuser[iCount].username %>" method="POST">
+              <button type="submit">Delete</button>
+            </form>
+          </td>
          </tr>
       <% } %>
      </tbody>
