@@ -11,7 +11,7 @@
         <label for="userIdFilter">Filter by User ID:</label>
         <select name="userIdFilter" id="userIdFilter">
           <!-- Add an "All" option -->
-          <option value="all">All</option>
+          <option value="all" selected>All</option>
           <!-- Populate the dropdown options with sorted distinct user IDs -->
           <% for (let i = 0; i < sortedUserIds.length; i++) { %>
             <option value="<%= sortedUserIds[i] %>"><%= sortedUserIds[i] %></option>
