@@ -137,32 +137,18 @@
             <label for="password">Password</label>
             <input type="password" id="password" name="password" required>
           </div>
-          <button type="submit">Login</button>
+          <button type="submit" onclick="redirect()">Login</button>
         </form>
       </div>
 
       <a href="/" class="back-to-home">Go back to Home</a>
 
-
       <script>
-        document.getElementById('login').addEventListener('submit', function(event) {
-          let username = document.getElementById('username').value
-          let password = document.getElementById('password').value
-
-          let registeredUsername = localStorage.getItem('username')
-          let registeredPassword = localStorage.getItem('password')
-          
-          if (username === registeredUsername && password === registeredPassword) {
-            alert('Login successful!');
-            // Redirect to dashboard or perform any other action after successful login 
-            window.location.href = '/'
-          } else {
-            alert('Invalid username or password. Please try again.');
-          }
-
-        });
-
+        function redirect() {
+          window.location.href="/";
+        }
       </script>
+
 
 </body>
 </html>

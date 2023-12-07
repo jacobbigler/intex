@@ -247,101 +247,28 @@ app.get("/editUser/:id", (req, res)=> {
   }
 });
 
-// app.post("/login", async (req, res) => {
-//   try {
-//     const { username, password } = req.body;
-
-//     // Query the database to get user information
-//     const user = await knex("login").where({ username }).first();
-
-//     if (!user) {
-//       return res.status(401).json({ error: 'Invalid username or password' });
-//     }
-
-//     // Compare the provided password with the stored password from the database
-//     if (password !== user.password) {
-//       return res.status(401).json({ error: 'Invalid username or password' });
-//     }
-
-//     // Create a JWT with user information
-//     const token = jwt.sign({ username: user.username, userId: user.id }, secretKey, { expiresIn: '1h' });
-
-//     // Send the JWT to the client
-//     res.json({ token });
-
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: 'Internal server error' });
-//   }
-// });
-
-// //function for authentication
-// function authenticateToken(req, res, next) {
-//   const token = req.headers['authorization'];
-
-//   if (!token) {
-//     return res.status(401).json({ error: 'Unauthorized: Token missing' });
-//   }
-
-//   jwt.verify(token, secretKey, (err, user) => {
-//     if (err) {
-//       return res.status(403).json({ error: 'Forbidden: Invalid token' });
-//     }
-
-//     req.user = user; // Attach user information to the request
-//     next();
-//   });
-// }
-
-function authenticateToken(req, res, next) {
-  const token = req.headers['authorization'];
-
-  if (!token) {
-    return res.status(401).json({ error: 'Unauthorized: Token missing' });
-  }
-
-  jwt.verify(token, secretKey, (err, user) => {
-    if (err) {
-      return res.status(403).json({ error: 'Forbidden: Invalid token' });
-    }
-
-    req.user = user; // Attach user information to the request
-    next();
-  });
-}
-
-app.get('/register', authenticateToken, (req, res) => {
-  const user = req.user;
-  // If the user is authenticated, redirect them to another page
-  res.render('register');
-});
-
-// Example route for user authentication
-app.post('/login', async (req, res) => {
+app.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
 
     // Query the database to get user information
-    const user = await knex('login').where({ username }).first();
+    const user = await knex("login").where({ username }).first();
 
     if (!user) {
       return res.status(401).json({ error: 'Invalid username or password' });
     }
 
-    // Compare the provided password with the stored hashed password from the database
+    // Compare the provided password with the stored password from the database
     if (password !== user.password) {
       return res.status(401).json({ error: 'Invalid username or password' });
     }
-
-    // Create a JWT with user information
-    const token = jwt.sign({ username: user.username, userId: user.id }, secretKey, { expiresIn: '1h' });
-
-    // Send the JWT to the client
-    res.json({ token });
-    res.locals.token = token//store it in the local storage
 
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+app.get("/register", (req, res) => {
+  res.render("register");
+})
