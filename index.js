@@ -14,6 +14,17 @@ const port = process.env.PORT || 3000;
 const path = require("path");
 const session = require('express-session');
 
+//middleware function that checks the authenticated variable
+const authenticateMiddleware = (req, res, next) => {
+  if (authenticated) {
+    // User is authenticated, allow access to the next middleware or route
+    next();
+  } else {
+    // User is not authenticated, redirect to a login page or send an error response
+    res.status(401).json({ error: 'Authentication required' });
+  }
+};
+
 //Define & Configure Express:
 let express = require("express");
 let app = express();
@@ -242,17 +253,6 @@ app.get("/editUser/:id", (req, res)=> {
     res.render("usernames", {myuser: userInput});
   })
  })
-
-//middleware function that checks the authenticated variable
-const authenticateMiddleware = (req, res, next) => {
-  if (authenticated) {
-    // User is authenticated, allow access to the next middleware or route
-    next();
-  } else {
-    // User is not authenticated, redirect to a login page or send an error response
-    res.status(401).json({ error: 'Authentication required' });
-  }
-};
 
  app.post("/register", async (req, res) => {
   try {
