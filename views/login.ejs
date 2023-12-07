@@ -154,10 +154,12 @@
           
           if (username === registeredUsername && password === registeredPassword) {
             alert('Login successful!');
-            // Redirect to dashboard or perform any other action after successful login
+            // Redirect to dashboard or perform any other action after successful login 
+            window.location.href = '/'
           } else {
             alert('Invalid username or password. Please try again.');
           }
+
         });
 
       </script>
