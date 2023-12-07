@@ -284,7 +284,7 @@ app.post('/survey', async (req, res) => {
 });
 
 //gets page full of all accounts created
- app.get("/usernames", (req, res) => {
+ app.get("/usernames", adminMiddleware, (req, res) => {
   knex.select().from("login").then(userInput => {
     res.render("usernames", {myuser: userInput});
   })
