@@ -302,7 +302,7 @@ app.post("/login", async (req, res) => {
     const { username, password } = req.body;
 
     // Check if the provided credentials match the admin credentials
-    if (username === 'admin' && password === 'admin') {
+    if (username === 'admin' && password === 'intexfun') {
       // Set flags in the session to identify the user as an admin and authenticated
       req.session.admin = true;
       req.session.authenticated = true;

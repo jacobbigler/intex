@@ -6,4 +6,9 @@ RDS Server{
     Password: 11nt3x2023
 }
 
+Log in as Admin on webpage{
+    Username: admin
+    Password: intexfun
+}
+
 
