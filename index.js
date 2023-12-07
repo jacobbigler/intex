@@ -296,9 +296,7 @@ app.post("/login", async (req, res) => {
     //generate token when logging in
     const token = jwt.sign({ username: req.body.username }, secretKey);
 
-    console.log(token);
-
-    res.status(200).json({ token });
+    window.location.href = "/";
 
   } catch (err) {
     console.error(err);
