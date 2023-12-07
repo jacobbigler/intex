@@ -13,6 +13,7 @@ const ENV_VARIABLES = {
 const port = process.env.PORT || 3000;
 const path = require("path");
 const session = require('express-session');
+const ejs = require("ejs");
 
 //middleware function that checks the authenticated variable
 const authenticateMiddleware = (req, res, next) => {
@@ -49,6 +50,9 @@ app.use(
 
 //Define EJS location:
 app.set("view engine", "ejs");
+//Define views location
+app.set('views', __dirname + '/views');
+
 
 console.log("Server is running.");
 
@@ -291,14 +295,25 @@ app.post("/login", async (req, res) => {
       return res.status(401).json({ error: 'Invalid username or password' });
     };
 
-    authenticated = true;
+    req.session.authenticated = true;
 
-    res.status(200).json({ message: 'Authentication successful' })
+    res.redirect("/")
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+//to logout and invalidate the authentication
+app.post("/logout", (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      console.error('Error destroying session:', err);
+    } else {
+      res.redirect('/');
+    }
+  });
+})
 
 app.get("/register", (req, res) => {
   res.render("register");
