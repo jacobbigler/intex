@@ -274,7 +274,7 @@ app.post('/survey', async (req, res) => {
     // Commit the transaction if all inserts are successful
     await trx.commit();
 
-    res.redirect('/');
+    res.redirect('/surveythanks');
   } catch (error) {
     // Rollback the transaction if there's an error
     await trx.rollback();
