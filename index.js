@@ -26,6 +26,16 @@ const authenticateMiddleware = (req, res, next) => {
   }
 };
 
+const adminMiddleware = (req, res, next) => {
+  if (req.session && req.session.admin) {
+    // User is authenticated, allow access to the next middleware or route
+    next();
+  } else {
+    // User is not authenticated, redirect to a login page or send an error response
+    res.status(401).json({ error: 'Admin authentication required' });
+  }
+};
+
 //Define & Configure Express:
 let express = require("express");
 let app = express();
@@ -289,6 +299,16 @@ app.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
 
+    // Check if the provided credentials match the admin credentials
+    if (username === 'admin' && password === 'admin') {
+      // Set flags in the session to identify the user as an admin and authenticated
+      req.session.admin = true;
+      req.session.authenticated = true;
+
+      // Redirect to the admin dashboard or another admin-specific page
+      return res.redirect("/");
+    }
+
     // Query the database to get user information
     const user = await knex("login").where({ username }).first();
 
@@ -321,6 +341,6 @@ app.get("/logout", (req, res) => {
   });
 })
 
-app.get("/register", (req, res) => {
+app.get("/register", adminMiddleware, (req, res) => {
   res.render("register");
 })

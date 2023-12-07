@@ -58,8 +58,12 @@
           <li><a href="/" class="active">Home</a></li>
           <li><a href="survey">Survey</a></li>
           
-          <% if (authenticated) { %>
+          <% if (admin) { %>
             <li><a href="register">Create Account</a></li>
+            <li><a href="report">View Report</a></li>
+            <li><a href="logout">Log Out</a></li>
+          <% } else if (authenticated) { %>
+            <li><a href="report">View Report</a></li>
             <li><a href="logout">Log Out</a></li>
           <% } else { %>
             <li><a href="login">Log In</a></li>
