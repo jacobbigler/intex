@@ -15,12 +15,9 @@ const path = require("path");
 const session = require('express-session');
 const ejs = require("ejs");
 
-//create an authenticated variable
-let authenticated = false;
-
 //middleware function that checks the authenticated variable
 const authenticateMiddleware = (req, res, next) => {
-  if (authenticated) {
+  if (req.session && req.session.authenticated) {
     // User is authenticated, allow access to the next middleware or route
     next();
   } else {
@@ -314,7 +311,7 @@ app.post("/login", async (req, res) => {
 });
 
 //to logout and invalidate the authentication
-app.post("/logout", (req, res) => {
+app.get("/logout", (req, res) => {
   req.session.destroy(err => {
     if (err) {
       console.error('Error destroying session:', err);
