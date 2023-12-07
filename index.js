@@ -15,6 +15,9 @@ const path = require("path");
 const session = require('express-session');
 const ejs = require("ejs");
 
+//create an authenticated variable
+let authenticated = false;
+
 //middleware function that checks the authenticated variable
 const authenticateMiddleware = (req, res, next) => {
   if (authenticated) {
@@ -30,9 +33,6 @@ const authenticateMiddleware = (req, res, next) => {
 let express = require("express");
 let app = express();
 
-//create an authenticated variable
-let authenticated = false;
-
 // Serve static files from the "content" directory
 app.use(express.static('content'));
 
@@ -47,6 +47,17 @@ app.use(
     saveUninitialized: true,
   })
 );
+
+// Custom middleware to set authenticated variable
+app.use((req, res, next) => {
+  const isAuthenticated = req.session && req.session.authenticated;
+
+  // Make the authenticated variable available to all views
+  res.locals.authenticated = isAuthenticated;
+
+  // Continue to the next middleware
+  next();
+});
 
 //Define EJS location:
 app.set("view engine", "ejs");
@@ -108,10 +119,8 @@ app.get("/report", authenticateMiddleware, (req, res) => { //shows report view
 });
 
 app.get("/", (req, res) => { //shows landing page
-    knex.select().from("user_inputs").then( userInput => {
-        res.render("index", { myuser : userInput });
+  res.render('index');
     });
-});
 
 app.get("/survey", (req, res) => { //shows survey page
     res.render("survey");
