@@ -103,7 +103,7 @@
 
 <body>
     <h1>Social Media and Well-being Survey</h1>
-    <form action="/survey" method="post" id="surveyForm">
+    <form action="/survey" method="post" onsubmit="return validateForm()" id="surveyForm">
         <!-- Personal Information -->
         <fieldset>
             <legend>Personal Information:</legend>
@@ -135,12 +135,12 @@
             <!-- Add radio buttons for other occupation statuses -->
 
             <br> <br><label for="organizations">Affiliation with Organizations:</label>
-            <input type="checkbox" name="organizations[]" value="Company" required> Company</label>
-            <input type="checkbox" name="organizations[]" value="Government" required> Government</label>
-            <input type="checkbox" name="organizations[]" value="Private" required> Private</label>
-            <input type="checkbox" name="organizations[]" value="School" required> School</label>
-            <input type="checkbox" name="organizations[]" value="University" required> University</label>
-            <input type="checkbox" name="organizations[]" value="N/A" required> N/A</label>
+            <input type="checkbox" name="organizations[]" value="Company" > Company</label>
+            <input type="checkbox" name="organizations[]" value="Government" > Government</label>
+            <input type="checkbox" name="organizations[]" value="Private" > Private</label>
+            <input type="checkbox" name="organizations[]" value="School" > School</label>
+            <input type="checkbox" name="organizations[]" value="University" > University</label>
+            <input type="checkbox" name="organizations[]" value="N/A" > N/A</label>
             <!-- Add checkboxes for other organization affiliations -->
         </fieldset>
 
@@ -152,15 +152,15 @@
             <input type="radio" name="use_social_media" value="No" required> No</label>
 
             <br> <br><label for="social_media_platforms">Which platforms do you use?</label>
-            <input type="checkbox" name="social_media_platforms[]" value="Discord" required> Discord</label>
-            <input type="checkbox" name="social_media_platforms[]" value="Facebook" required> Facebook</label>
-            <input type="checkbox" name="social_media_platforms[]" value="Instagram" required> Instagram</label>
-            <input type="checkbox" name="social_media_platforms[]" value="Pinterest" required> Pinterest</label>
-            <input type="checkbox" name="social_media_platforms[]" value="Reddit" required> Reddit</label>
-            <input type="checkbox" name="social_media_platforms[]" value="Snapchat" required> Snapchat</label>
-            <input type="checkbox" name="social_media_platforms[]" value="TikTok" required> TikTok</label>
-            <input type="checkbox" name="social_media_platforms[]" value="Twitter" required> Twitter</label>
-            <input type="checkbox" name="social_media_platforms[]" value="YouTube" required> YouTube</label>
+            <input type="checkbox" name="social_media_platforms[]" value="Discord" > Discord</label>
+            <input type="checkbox" name="social_media_platforms[]" value="Facebook" > Facebook</label>
+            <input type="checkbox" name="social_media_platforms[]" value="Instagram" > Instagram</label>
+            <input type="checkbox" name="social_media_platforms[]" value="Pinterest" > Pinterest</label>
+            <input type="checkbox" name="social_media_platforms[]" value="Reddit" > Reddit</label>
+            <input type="checkbox" name="social_media_platforms[]" value="Snapchat" > Snapchat</label>
+            <input type="checkbox" name="social_media_platforms[]" value="TikTok" > TikTok</label>
+            <input type="checkbox" name="social_media_platforms[]" value="Twitter" > Twitter</label>
+            <input type="checkbox" name="social_media_platforms[]" value="YouTube" > YouTube</label>
             <!-- Add checkboxes for other social media platforms -->
 
             <br> <br><label for="time_spent">Average Time Spent on Social Media per day:</label>
@@ -285,6 +285,29 @@
             // Redirect to another page after successful form submission
             window.location.href = "/surveythanks"; // Replace with your desired URL
         });
+    </script>
+    <script>
+        function validateForm() {
+            // Check social media platforms
+            var socialMediaCheckboxes = document.querySelectorAll('input[type="checkbox"][name="social_media_platforms[]"]');
+            var isSocialMediaChecked = Array.from(socialMediaCheckboxes).some(checkbox => checkbox.checked);
+    
+            if (!isSocialMediaChecked) {
+                alert("Please select at least one social media platform.");
+                return false;
+            }
+    
+            // Check organization affiliations
+            var organizationCheckboxes = document.querySelectorAll('input[type="checkbox"][name="organizations[]"]');
+            var isOrganizationChecked = Array.from(organizationCheckboxes).some(checkbox => checkbox.checked);
+    
+            if (!isOrganizationChecked) {
+                alert("Please select at least one organization affiliation.");
+                return false;
+            }
+    
+            return true;
+        }
     </script>
 </body>
 </html>
