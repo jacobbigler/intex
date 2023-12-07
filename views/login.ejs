@@ -145,20 +145,27 @@
 
 
       <script>
-          // Function to store the token in localStorage
-  function storeToken(token) {
+ // Function to store the token in localStorage
+ function storeToken(token) {
     localStorage.setItem('token', token);
   }
 
-  // Function to make a login request
-  async function login(username, password) {
+  // Function to make an authenticated GET request to /register
+  async function getRegisterPage() {
     try {
-      const response = await fetch('/login', {
-        method: 'POST',
+      // Retrieve the token from localStorage
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        throw new Error('Token not found');
+      }
+
+      // Make a GET request to the protected route
+      const response = await fetch('/register', {
+        method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ username, password }),
       });
 
       if (!response.ok) {
@@ -166,31 +173,24 @@
         throw new Error(errorData.error);
       }
 
+      // Handle the response, e.g., render the register page
       const data = await response.json();
-
-      // Store the token immediately after a successful login
-      storeToken(data.token);
-
-      // Optionally, navigate to another page or perform other actions
-      console.log('Login successful. Token:', data.token);
+      console.log('Response from /register:', data);
+      // Render the register page or perform other actions
     } catch (error) {
-      console.error('Login failed:', error.message);
+      console.error('Error fetching /register:', error.message);
+      // Optionally handle the error, e.g., redirect to a login page
     }
   }
 
-  // Example usage: Call login when the user submits the login form
-  // You can trigger this function based on user actions (e.g., form submission)
+  // Example usage: Call getRegisterPage when the user wants to access /register
+  // You can trigger this function based on user actions (e.g., button click)
   // For example:
-  document.getElementById('loginForm').addEventListener('submit', function (event) {
-    event.preventDefault(); // Prevent the form from submitting in the traditional way
+  document.getElementById('goToRegisterButton').addEventListener('click', getRegisterPage);
+</script>
 
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-
-    login(username, password);
-  });
-
-      </script>
+<!-- Example button to trigger the getRegisterPage function -->
+<button id="goToRegisterButton">Go to Register</button>
 
 </body>
 </html>
