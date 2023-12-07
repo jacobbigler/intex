@@ -71,6 +71,3 @@ async function fetchProtectedResource() {
     window.location.href = '/login';
   }
 }
-
-// Example: Call the function when the page loads or when needed
-document.addEventListener('DOMContentLoaded', fetchProtectedResource);
