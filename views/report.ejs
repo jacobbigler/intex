@@ -6,11 +6,26 @@
    <title>User Survey Report</title>
 </head>
 <body>
+      <!-- Add a form with a dropdown for filtering by user ID -->
+    <form action="/report" method="post">
+      <label for="userIdFilter">Filter by User ID:</label>
+      <select name="userIdFilter" id="userIdFilter">
+        <!-- Add an "All" option -->
+          <option value="all">All</option>  
+        <!-- Populate the dropdown options with user IDs from the data -->
+        <% for (let iCount = 0; iCount < myuser.length; iCount++) { %>
+          <option value="<%= myuser[iCount].user_id %>"><%= myuser[iCount].user_id %></option>
+        <% } %>
+      </select>
+      <button type="submit">Filter</button>
+    </form>
+
    <label><b>User Information:</b></label>
    <br><br>
    <table style="width: 100%; background-color: antiquewhite; border: 1px solid black;">
      <thead style="background-color: cornflowerblue; color: white;">
        <tr>
+         <th style="text-align: left;">User ID</th>
          <th style="text-align: left;">Timestamp</th>
          <th style="text-align: left;">City</th>
          <th style="text-align: left;">1. What is your age?</th>
@@ -40,6 +55,7 @@
      <tbody style="font-family: Arial; font-size: 9pt;">
       <% for (let iCount = 0; iCount < myuser.length; iCount++) { %>
          <tr>
+           <td><%= myuser[iCount].user_id %></td>
            <td><%= myuser[iCount].timestamp %></td>
            <td><%= myuser[iCount].city %></td>
            <td><%= myuser[iCount].age %></td>
@@ -62,23 +78,9 @@
            <td><%= myuser[iCount].feel_depressed %></td>
            <td><%= myuser[iCount].daily_activity_interest_fluctuations %></td>
            <td><%= myuser[iCount].sleep_issues %></td>
-           <td style="text-align: center;">
-             <form action="/editUser/<%= myuser[iCount].user_id %>" method="GET">
-               <button type="submit">Edit</button>
-             </form>
-           </td>
-           <td style="text-align: center;">
-             <form action="/deleteUser/<%= myuser[iCount].user_id %>" method="POST">
-               <button type="submit">Delete</button>
-             </form>
-           </td>
          </tr>
       <% } %>
      </tbody>
    </table>
-
-   <script src="/js/auth.js">
-      document.addEventListener('DOMContentLoaded', fetchProtectedResource);
-  </script>
 </body>
 </html>
