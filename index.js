@@ -96,11 +96,7 @@ app.get("/login", (req, res) => { //shows login page
   res.render("login");
 });
 
-app.get('/register', authenticateToken, (req, res) => {
-  const user = req.user;
-  // If the user is authenticated, redirect them to another page
-  res.render('register');
-});
+
 
 app.get("/surveythanks", (req, res) => { //shows surveythanks page
   res.render("surveythanks");
@@ -313,6 +309,12 @@ function authenticateToken(req, res, next) {
     next();
   });
 }
+
+app.get('/register', authenticateToken, (req, res) => {
+  const user = req.user;
+  // If the user is authenticated, redirect them to another page
+  res.render('register');
+});
 
 // Example route for user authentication
 app.post('/login', async (req, res) => {
