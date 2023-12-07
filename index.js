@@ -95,110 +95,188 @@ const knex = require("knex")({
 
 //GET requests below:
 
-app.get("/report", authenticateMiddleware, (req, res) => { //shows report view
-    knex.select("u.user_id",
-          "u.timestamp",
-          "u.city",
-          "u.age",
-          "u.gender",
-          "u.relationship_status",
-          "u.occupation_status",
-          "oa.organization_affiliation",
-          "u.social_media_use",
-          "smp.social_media_platform",
-          "u.time_usage",
-          "r.use_without_purpose",
-          "r.restless_without_social_media",
-          "r.distracted_by_social_media",
-          "r.easily_distracted",
-          "r.bothered_by_worries",
-          "r.concentration_difficulty",
-          "r.compare_self_to_others",
-          "r.opinions_about_comparisons",
-          "r.seek_validation",
-          "r.feel_depressed",
-          "r.daily_activity_interest_fluctuations",
-          "r.sleep_issues")
-          .from({u: "user_inputs" })
-          .join({r: "ratings"}, "u.user_id", "=", "r.user_id")
-          .join({smp: "social_media_platforms"},  "u.user_id", "=", "smp.user_id")
-          .join({oa: "organization_affiliations"},  "u.user_id", "=", "oa.user_id")
-          .then(userInput => {
-        res.render("report", {myuser: userInput});
-});
+// app.get("/report", authenticateMiddleware, (req, res) => { //shows report view
+//     knex.select("u.user_id",
+//           "u.timestamp",
+//           "u.city",
+//           "u.age",
+//           "u.gender",
+//           "u.relationship_status",
+//           "u.occupation_status",
+//           "oa.organization_affiliation",
+//           "u.social_media_use",
+//           "smp.social_media_platform",
+//           "u.time_usage",
+//           "r.use_without_purpose",
+//           "r.restless_without_social_media",
+//           "r.distracted_by_social_media",
+//           "r.easily_distracted",
+//           "r.bothered_by_worries",
+//           "r.concentration_difficulty",
+//           "r.compare_self_to_others",
+//           "r.opinions_about_comparisons",
+//           "r.seek_validation",
+//           "r.feel_depressed",
+//           "r.daily_activity_interest_fluctuations",
+//           "r.sleep_issues")
+//           .from({u: "user_inputs" })
+//           .join({r: "ratings"}, "u.user_id", "=", "r.user_id")
+//           .join({smp: "social_media_platforms"},  "u.user_id", "=", "smp.user_id")
+//           .join({oa: "organization_affiliations"},  "u.user_id", "=", "oa.user_id")
+//           .then(userInput => {
+//         res.render("report", {myuser: userInput});
+// });
+// });
+
+// app.post("/report", authenticateMiddleware, (req, res) => { //shows report view
+//   //make variable to grab user id filter
+//   const selectedUserId = req.body.userIdFilter
+
+//   if (selectedUserId === 'all') {
+//     // Fetch all survey results without filtering by user ID
+//     knex.select("u.user_id",
+//           "u.timestamp",
+//           "u.city",
+//           "u.age",
+//           "u.gender",
+//           "u.relationship_status",
+//           "u.occupation_status",
+//           "oa.organization_affiliation",
+//           "u.social_media_use",
+//           "smp.social_media_platform",
+//           "u.time_usage",
+//           "r.use_without_purpose",
+//           "r.restless_without_social_media",
+//           "r.distracted_by_social_media",
+//           "r.easily_distracted",
+//           "r.bothered_by_worries",
+//           "r.concentration_difficulty",
+//           "r.compare_self_to_others",
+//           "r.opinions_about_comparisons",
+//           "r.seek_validation",
+//           "r.feel_depressed",
+//           "r.daily_activity_interest_fluctuations",
+//           "r.sleep_issues")
+//           .from({u: "user_inputs" })
+//           .join({r: "ratings"}, "u.user_id", "=", "r.user_id")
+//           .join({smp: "social_media_platforms"},  "u.user_id", "=", "smp.user_id")
+//           .join({oa: "organization_affiliations"},  "u.user_id", "=", "oa.user_id")
+//           .then(userInput => {
+//     // Render the report page with all survey results
+//         res.render("report", {myuser: userInput});
+//   });
+//       } else {
+
+//   knex.select("u.user_id",
+//         "u.timestamp",
+//         "u.city",
+//         "u.age",
+//         "u.gender",
+//         "u.relationship_status",
+//         "u.occupation_status",
+//         "oa.organization_affiliation",
+//         "u.social_media_use",
+//         "smp.social_media_platform",
+//         "u.time_usage",
+//         "r.use_without_purpose",
+//         "r.restless_without_social_media",
+//         "r.distracted_by_social_media",
+//         "r.easily_distracted",
+//         "r.bothered_by_worries",
+//         "r.concentration_difficulty",
+//         "r.compare_self_to_others",
+//         "r.opinions_about_comparisons",
+//         "r.seek_validation",
+//         "r.feel_depressed",
+//         "r.daily_activity_interest_fluctuations",
+//         "r.sleep_issues")
+//         .from({u: "user_inputs" })
+//         .join({r: "ratings"}, "u.user_id", "=", "r.user_id")
+//         .join({smp: "social_media_platforms"},  "u.user_id", "=", "smp.user_id")
+//         .join({oa: "organization_affiliations"},  "u.user_id", "=", "oa.user_id")
+//         .where("u.user_id", selectedUserId)
+//         .then(userInput => {
+//       res.render("report", {myuser: userInput});
+// });
+// }});
+
+// Add a new function to fetch distinct user IDs
+async function getDistinctUserIds() {
+  const distinctUserIds = await knex('user_inputs').distinct('user_id');
+  return distinctUserIds.map(row => row.user_id);
+}
+
+// Modify your GET route to fetch distinct user IDs
+app.get("/report", authenticateMiddleware, async (req, res) => {
+  try {
+    const distinctUserIds = await getDistinctUserIds();
+
+    // Fetch survey results for the first user ID by default
+    const selectedUserId = distinctUserIds[0];
+    const surveyResults = await fetchSurveyResults(selectedUserId);
+
+    res.render("report", { myuser: surveyResults, distinctUserIds: distinctUserIds });
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
-app.post("/report", authenticateMiddleware, (req, res) => { //shows report view
-  //make variable to grab user id filter
-  const selectedUserId = req.body.userIdFilter
+// Modify the POST route to use the selected user ID or fetch all results
+app.post("/report", authenticateMiddleware, async (req, res) => {
+  try {
+    const selectedUserId = req.body.userIdFilter;
 
-  if (selectedUserId === 'all') {
-    // Fetch all survey results without filtering by user ID
-    knex.select("u.user_id",
-          "u.timestamp",
-          "u.city",
-          "u.age",
-          "u.gender",
-          "u.relationship_status",
-          "u.occupation_status",
-          "oa.organization_affiliation",
-          "u.social_media_use",
-          "smp.social_media_platform",
-          "u.time_usage",
-          "r.use_without_purpose",
-          "r.restless_without_social_media",
-          "r.distracted_by_social_media",
-          "r.easily_distracted",
-          "r.bothered_by_worries",
-          "r.concentration_difficulty",
-          "r.compare_self_to_others",
-          "r.opinions_about_comparisons",
-          "r.seek_validation",
-          "r.feel_depressed",
-          "r.daily_activity_interest_fluctuations",
-          "r.sleep_issues")
-          .from({u: "user_inputs" })
-          .join({r: "ratings"}, "u.user_id", "=", "r.user_id")
-          .join({smp: "social_media_platforms"},  "u.user_id", "=", "smp.user_id")
-          .join({oa: "organization_affiliations"},  "u.user_id", "=", "oa.user_id")
-          .then(userInput => {
-    // Render the report page with all survey results
-        res.render("report", {myuser: userInput});
-  });
-      } else {
+    // Fetch survey results based on the selected user ID or fetch all results if "All" is selected
+    const surveyResults = await fetchSurveyResults(selectedUserId);
 
-  knex.select("u.user_id",
-        "u.timestamp",
-        "u.city",
-        "u.age",
-        "u.gender",
-        "u.relationship_status",
-        "u.occupation_status",
-        "oa.organization_affiliation",
-        "u.social_media_use",
-        "smp.social_media_platform",
-        "u.time_usage",
-        "r.use_without_purpose",
-        "r.restless_without_social_media",
-        "r.distracted_by_social_media",
-        "r.easily_distracted",
-        "r.bothered_by_worries",
-        "r.concentration_difficulty",
-        "r.compare_self_to_others",
-        "r.opinions_about_comparisons",
-        "r.seek_validation",
-        "r.feel_depressed",
-        "r.daily_activity_interest_fluctuations",
-        "r.sleep_issues")
-        .from({u: "user_inputs" })
-        .join({r: "ratings"}, "u.user_id", "=", "r.user_id")
-        .join({smp: "social_media_platforms"},  "u.user_id", "=", "smp.user_id")
-        .join({oa: "organization_affiliations"},  "u.user_id", "=", "oa.user_id")
-        .where("u.user_id", selectedUserId)
-        .then(userInput => {
-      res.render("report", {myuser: userInput});
+    // Fetch distinct user IDs for rendering the form
+    const distinctUserIds = await getDistinctUserIds();
+
+    res.render("report", { myuser: surveyResults, distinctUserIds: distinctUserIds });
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
-}});
+
+// Extract the common logic for fetching survey results
+async function fetchSurveyResults(userId) {
+  let query = knex.select(
+    "u.user_id",
+    "u.timestamp",
+    "u.city",
+    "u.age",
+    "u.gender",
+    "u.relationship_status",
+    "u.occupation_status",
+    "oa.organization_affiliation",
+    "u.social_media_use",
+    "smp.social_media_platform",
+    "u.time_usage",
+    "r.use_without_purpose",
+    "r.restless_without_social_media",
+    "r.distracted_by_social_media",
+    "r.easily_distracted",
+    "r.bothered_by_worries",
+    "r.concentration_difficulty",
+    "r.compare_self_to_others",
+    "r.opinions_about_comparisons",
+    "r.seek_validation",
+    "r.feel_depressed",
+    "r.daily_activity_interest_fluctuations",
+    "r.sleep_issues"
+  ).from({ u: "user_inputs" })
+    .join({ r: "ratings" }, "u.user_id", "=", "r.user_id")
+    .join({ smp: "social_media_platforms" }, "u.user_id", "=", "smp.user_id")
+    .join({ oa: "organization_affiliations" }, "u.user_id", "=", "oa.user_id");
+
+  if (userId !== 'all') {
+    query = query.where("u.user_id", userId);
+  }
+
+  return query;
+}
 
 app.get("/", (req, res) => { //shows landing page
   res.render('index');
