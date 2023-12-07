@@ -338,6 +338,7 @@ app.post('/login', async (req, res) => {
 
     // Send the JWT to the client
     res.json({ token });
+    res.locals.token = token//store it in the local storage
 
   } catch (err) {
     console.error(err);
