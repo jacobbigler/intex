@@ -315,6 +315,8 @@ app.post('/survey', async (req, res) => {
       password: req.body.password
     });
 
+    res.redirect("/register");
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Internal server error' });
