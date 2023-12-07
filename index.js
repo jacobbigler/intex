@@ -227,6 +227,12 @@ app.get("/editUser/:id", (req, res)=> {
    });
  })
 
+ app.get("/usernames", (req, res) => {
+  knex.select().from("login").then(userInput => {
+    res.render("usernames", {myuser: userInput});
+  })
+ })
+
  // Middleware to verify JWT
 function verifyToken(req, res, next) {
   const token = req.headers.authorization;

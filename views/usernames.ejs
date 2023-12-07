@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Usernames</title>
+</head>
+<body>
+   <label><b>User Information:</b></label>
+   <br><br>
+   <table style="width: 100%; background-color: antiquewhite; border: 1px solid black;">
+     <thead style="background-color: cornflowerblue; color: white;">
+       <tr>
+         <th style="text-align: left;">Username</th>
+         <th style="text-align: left;">Password</th>
+         <th></th>
+       </tr>
+     </thead>
+     <tbody style="font-family: Arial; font-size: 9pt;">
+      <% for (let iCount = 0; iCount < myuser.length; iCount++) { %>
+         <tr>
+           <td><%= myuser[iCount].username %></td>
+           <td><%= myuser[iCount].password %></td>
+         </tr>
+      <% } %>
+     </tbody>
+   </table>
+</body>
+</html>
